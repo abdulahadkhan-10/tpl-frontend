@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1672" height="941" viewBox="0 0 1672 941">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#302046"/>
+      <stop offset="1" stop-color="#16072f"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffc842"/>
+      <stop offset="1" stop-color="#f2aa00"/>
+    </linearGradient>
+    <linearGradient id="yellow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff06b"/>
+      <stop offset="1" stop-color="#ffd000"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffb000"/>
+      <stop offset="1" stop-color="#ff3d00"/>
+    </linearGradient>
+    <linearGradient id="white" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#eeeeee"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="-8" dy="10" stdDeviation="2" flood-color="#29115f" flood-opacity="0.9"/>
+    </filter>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+    <style><![CDATA[
+      .top{font-family:Arial Black, Impact, sans-serif;font-size:64px;font-weight:900;letter-spacing:2px;fill:white;font-style:italic}
+      .main{font-family:Arial Black, Impact, sans-serif;font-size:420px;font-weight:900;font-style:italic;filter:url(#shadow)}
+      .tag{font-family:Arial Black, Impact, sans-serif;font-size:122px;font-weight:900;font-style:italic;letter-spacing:6px;filter:url(#shadow)}
+      .cut{fill:#2b1746}
+    ]]></style>
+  </defs>
+
+  <rect width="1672" height="941" fill="url(#bg)"/>
+
+  <!-- motion swooshes -->
+  <path d="M620 166 C940 210 1204 360 1510 622" fill="none" stroke="#8dd13a" stroke-width="20" opacity="0.9"/>
+  <path d="M705 306 C975 330 1225 420 1530 640" fill="none" stroke="#d8231f" stroke-width="12" opacity="0.9"/>
+  <path d="M420 505 C820 570 1140 665 1500 755" fill="none" stroke="#1b70bd" stroke-width="11" opacity="0.85"/>
+  <path d="M735 760 C1035 720 1260 660 1535 578" fill="none" stroke="#9ad133" stroke-width="18" opacity="0.95"/>
+  <path d="M645 816 C1020 785 1285 690 1580 545" fill="none" stroke="#18aee9" stroke-width="13" opacity="0.95"/>
+  <path d="M760 828 C1050 795 1255 720 1510 610" fill="none" stroke="#d81820" stroke-width="9" opacity="0.9"/>
+  <path d="M720 842 C1005 812 1200 750 1470 642" fill="none" stroke="#f36a21" stroke-width="6" opacity="0.85"/>
+  <path d="M632 30 C1000 85 1288 200 1545 372" fill="none" stroke="#13b4eb" stroke-width="12" opacity="0.95"/>
+
+  <!-- title -->
+  <text x="100" y="120" class="top">TALENT PRO LEAGUE</text>
+
+  <!-- TPL block letters -->
+  <g transform="translate(150,285) skewX(-12)">
+    <text x="0" y="295" class="main" fill="url(#white)">T</text>
+    <text x="430" y="295" class="main" fill="url(#gold)">P</text>
+    <text x="770" y="295" class="main" fill="url(#white)">L</text>
+  </g>
+
+  <!-- slogan -->
+  <text x="198" y="704" class="tag" fill="url(#yellow)">RAW</text>
+  <text x="560" y="704" class="tag" fill="url(#yellow)">TO</text>
+  <text x="790" y="704" class="tag" fill="url(#yellow)">PRO</text>
+
+  <!-- player ring and abstract player -->
+  <g filter="url(#soft)">
+    <circle cx="1322" cy="288" r="180" fill="none" stroke="#ff5b1f" stroke-width="15"/>
+    <path d="M1397 196 C1515 267 1540 426 1450 555 C1395 630 1300 680 1210 700 C1338 628 1385 520 1370 410 C1358 305 1298 235 1195 190 C1255 178 1333 177 1397 196Z" fill="#12aee7" opacity="0.95"/>
+    <circle cx="1305" cy="210" r="48" fill="#d4cfc0"/>
+    <path d="M1260 188 C1285 145 1342 154 1374 190 C1360 160 1324 140 1288 145 C1265 149 1255 166 1260 188Z" fill="#6c6d65"/>
+    <path d="M1250 260 C1320 220 1396 250 1425 330 L1392 448 C1358 486 1295 470 1257 430 C1215 386 1205 305 1250 260Z" fill="url(#orange)"/>
+    <path d="M1395 348 C1432 378 1454 438 1446 486 L1406 482 C1400 438 1379 398 1347 373Z" fill="#fb5b17"/>
+    <path d="M1234 418 C1285 462 1320 505 1350 562 L1302 596 C1265 544 1215 499 1183 452Z" fill="#ff641a"/>
+    <path d="M1343 540 C1395 590 1445 635 1518 680 L1485 727 C1410 683 1348 632 1298 572Z" fill="#e83a12"/>
+    <path d="M1278 575 C1218 578 1175 620 1140 682 L1185 704 C1225 660 1268 640 1320 636Z" fill="#f45513"/>
+  </g>
+
+  <!-- football -->
+  <g transform="translate(1427 646)" filter="url(#soft)">
+    <circle cx="0" cy="0" r="76" fill="#f6f6f6" stroke="#dddddd" stroke-width="4"/>
+    <polygon points="0,-34 33,-10 20,28 -20,28 -33,-10" fill="#111"/>
+    <polygon points="-58,-22 -35,-55 -16,-35 -31,-10" fill="#111"/>
+    <polygon points="58,-22 35,-55 16,-35 31,-10" fill="#111"/>
+    <polygon points="-48,48 -20,32 -10,62 -36,68" fill="#111"/>
+    <polygon points="48,48 20,32 10,62 36,68" fill="#111"/>
+    <path d="M-33 -10 L-16 -35 M33 -10 L16 -35 M20 28 L20 32 M-20 28 L-20 32" stroke="#bbb" stroke-width="3"/>
+  </g>
+</svg>
