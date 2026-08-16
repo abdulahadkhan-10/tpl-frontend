@@ -90,14 +90,13 @@ export default function HomePage() {
       <section
         className="relative min-h-[500px] md:min-h-[600px] w-full flex items-center justify-start bg-slate-950 overflow-hidden"
       >
-        {/* Background Image with Dark Blue Overlay and fade transition */}
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
             initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
+            transition={{ duration: 1.2, ease: [0.32, 0.72, 0, 1] }}
             className="absolute inset-0 bg-cover bg-center select-none pointer-events-none"
             style={{ backgroundImage: `url('${activeSlide.image}')` }}
           />
@@ -109,10 +108,10 @@ export default function HomePage() {
           <AnimatePresence mode="wait">
             <motion.div
               key={`text-${currentSlide}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
+              initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -20, filter: "blur(10px)" }}
+              transition={{ duration: 0.8, ease: [0.32, 0.72, 0, 1] }}
               className="flex flex-col items-start text-left space-y-6 w-full"
             >
               {/* Season Badge */}
@@ -136,15 +135,16 @@ export default function HomePage() {
               <div className="flex flex-wrap gap-4 pt-2">
                 <Link 
                   href={activeSlide.btn1Href}
-                  className="group relative overflow-hidden px-6 py-3 bg-amber-400 text-slate-950 font-black rounded-lg text-sm uppercase tracking-wide flex items-center gap-2 shadow-[0_0_15px_rgba(251,191,36,0.3)] transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(251,191,36,0.6)]"
+                  className="group flex items-center gap-4 pl-6 pr-1.5 py-1.5 bg-amber-400 text-slate-950 font-black rounded-full text-sm uppercase tracking-wide transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:shadow-[0_8px_30px_rgba(251,191,36,0.4)] active:scale-[0.98]"
                 >
-                  <span className="relative z-10">{activeSlide.btn1Text}</span>
-                  <ArrowRight size={16} strokeWidth={2.5} className="relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
-                  <div className="absolute inset-0 bg-white/30 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                  <span>{activeSlide.btn1Text}</span>
+                  <div className="w-10 h-10 rounded-full bg-slate-950/10 flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-105 group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:bg-slate-950 text-slate-950 group-hover:text-amber-400">
+                    <ArrowRight size={18} strokeWidth={1.5} />
+                  </div>
                 </Link>
                 <Link 
                   href={activeSlide.btn2Href} 
-                  className="px-6 py-3 border border-white/30 hover:bg-white/10 text-white font-bold rounded-lg text-sm uppercase tracking-wide transition-all hover:scale-105 backdrop-blur-sm"
+                  className="px-8 py-3.5 border border-white/20 hover:border-white/50 text-white font-bold rounded-full text-sm uppercase tracking-wide transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] backdrop-blur-sm hover:bg-white/5"
                 >
                   {activeSlide.btn2Text}
                 </Link>
@@ -185,8 +185,14 @@ export default function HomePage() {
       <FixturesPreview />
 
       {/* 3. League Standings Section */}
-      <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto w-full">
-        <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-center">
+      <section className="py-32 px-6 md:px-12 max-w-7xl mx-auto w-full overflow-hidden">
+        <motion.div 
+          initial={{ opacity: 0, y: 60, filter: "blur(10px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 1, ease: [0.32, 0.72, 0, 1] }}
+          className="grid md:grid-cols-12 gap-8 md:gap-12 items-center"
+        >
           
           {/* Left Column: Heading and Info */}
           <div className="md:col-span-5 space-y-4">
@@ -202,14 +208,17 @@ export default function HomePage() {
               className="inline-flex items-center gap-1.5 text-xs md:text-sm font-black text-slate-900 hover:text-amber-600 transition-colors uppercase tracking-widest pt-2"
             >
               <span>Full Table</span>
-              <ChevronRight size={14} strokeWidth={3} />
+              <ChevronRight size={16} strokeWidth={1.5} />
             </Link>
           </div>
 
           {/* Right Column: Mini Standings Table */}
           <div className="md:col-span-7">
-            <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-x-auto">
-              <table className="w-full min-w-[480px] text-left border-collapse text-xs md:text-sm">
+            {/* Double-Bezel Outer Shell */}
+            <div className="bg-slate-100/50 p-2 rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden backdrop-blur-sm">
+              {/* Inner Core */}
+              <div className="bg-white rounded-[1.5rem] shadow-[inset_0_1px_1px_rgba(255,255,255,0.8)] border border-slate-100 overflow-x-auto">
+                <table className="w-full min-w-[480px] text-left border-collapse text-xs md:text-sm">
                 <thead>
                   <tr className="border-b border-slate-100 text-slate-400 font-bold bg-slate-50/50">
                     <th className="py-3 px-4 text-center w-12">Pos</th>
@@ -255,10 +264,11 @@ export default function HomePage() {
                   ))}
                 </tbody>
               </table>
+              </div>
             </div>
           </div>
           
-        </div>
+        </motion.div>
       </section>
 
       {/* 4. Rest of the Sections */}
