@@ -22,7 +22,6 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  font-style: italic;
   overflow-x: hidden;
 }
 
@@ -31,4 +30,13 @@ html {
   scroll-behavior: smooth;
 }
 
+::selection {
+  background: #f59e0b;
+  color: #020617;
+}
+
+:focus-visible {
+  outline: 2px solid #f59e0b;
+  outline-offset: 2px;
+}
 

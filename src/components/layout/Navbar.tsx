@@ -4,11 +4,11 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
-import { Search, User, Globe, ChevronDown, Menu } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
 
 const navItems = [
-  { name: "Fixtures", href: "/fixtures", hasDropdown: true },
+  { name: "Fixtures", href: "/fixtures" },
   { name: "Standings", href: "/standings" },
   { name: "Teams", href: "/teams" },
   { name: "Scouting", href: "/scouting" },
@@ -23,6 +23,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const [isMoving, setIsMoving] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -31,9 +32,17 @@ export default function Navbar() {
 
   React.useEffect(() => {
     setIsMoving(true);
+    setMobileOpen(false);
     const timer = setTimeout(() => setIsMoving(false), 450);
     return () => clearTimeout(timer);
   }, [pathname]);
+
+  React.useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -45,7 +54,7 @@ export default function Navbar() {
 
   return (
     <nav 
-      className={`w-full py-4 md:py-5 px-6 md:px-12 flex items-center justify-between z-50 fixed top-0 transition-all duration-300 ease-in-out ${
+      className={`w-full py-4 md:py-5 px-6 md:px-12 flex items-center justify-between z-50 sticky top-0 transition-all duration-300 ease-in-out ${
         scrolled 
           ? "bg-slate-950/95 backdrop-blur-md border-b border-slate-800 shadow-lg" 
           : "bg-slate-950 border-b border-transparent shadow-sm"
@@ -57,7 +66,7 @@ export default function Navbar() {
           <Image
             src="/images/TPL_logo_White.png"
             alt="TPL Logo"
-            width={76}
+            width={152}
             height={76}
             className="object-contain"
           />
@@ -77,7 +86,6 @@ export default function Navbar() {
               } flex items-center gap-1.5 uppercase whitespace-nowrap`}
             >
               <span>{item.name}</span>
-              {item.hasDropdown && <ChevronDown size={14} className="opacity-80" />}
               {active && (
                 <motion.div
                   layoutId="navbar-active-line"
@@ -112,10 +120,69 @@ export default function Navbar() {
 
       {/* Mobile Menu Toggle */}
       <div className="xl:hidden flex items-center justify-end flex-1">
-        <button className="text-white hover:text-amber-400 transition-colors">
-          <Menu size={32} />
+        <button
+          onClick={() => setMobileOpen((open) => !open)}
+          className="text-white hover:text-amber-400 transition-colors"
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileOpen}
+        >
+          {mobileOpen ? <X size={30} /> : <Menu size={30} />}
         </button>
       </div>
+
+      {/* Mobile Menu Drawer */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setMobileOpen(false)}
+              className="xl:hidden fixed inset-0 bg-black/60 z-40"
+            />
+            <motion.div
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="xl:hidden absolute top-full left-0 right-0 z-40 bg-slate-950 border-b border-slate-800 shadow-xl max-h-[calc(100vh-80px)] overflow-y-auto"
+            >
+              <div className="flex flex-col px-6 py-4">
+                {navItems.map((item) => {
+                  const active = isActive(item.href);
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={`py-3.5 border-b border-slate-900 text-sm font-bold uppercase tracking-wider transition-colors ${
+                        active ? "text-amber-400" : "text-gray-200 hover:text-amber-400"
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  );
+                })}
+                <div className="flex flex-col gap-3 pt-5">
+                  <Link
+                    href="/login"
+                    className="border border-slate-700 text-slate-200 hover:bg-slate-800 hover:text-white font-bold py-3 px-5 rounded-xl text-xs text-center transition-all tracking-wider uppercase"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/register"
+                    className="bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black py-3 px-5 rounded-xl text-xs text-center transition-all tracking-wider uppercase"
+                  >
+                    Register
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }

@@ -17,7 +17,7 @@ export default function Footer() {
             <Image
               src="/images/TPL_logo_White.png"
               alt="TPL Logo"
-              width={100}
+              width={200}
               height={100}
               className="object-contain"
             />
@@ -30,20 +30,20 @@ export default function Footer() {
             <div className="flex flex-col gap-3">
               <h4 className="font-bold text-amber-500 mb-2 uppercase">League</h4>
               <Link href="/fixtures" className="hover:text-amber-500 transition-colors">Fixtures</Link>
-              <Link href="/results" className="hover:text-amber-500 transition-colors">Results</Link>
+              <Link href="/fixtures" className="hover:text-amber-500 transition-colors">Results</Link>
               <Link href="/standings" className="hover:text-amber-500 transition-colors">Standings</Link>
-              <Link href="/clubs" className="hover:text-amber-500 transition-colors">Clubs</Link>
+              <Link href="/teams" className="hover:text-amber-500 transition-colors">Clubs</Link>
             </div>
             <div className="flex flex-col gap-3">
               <h4 className="font-bold text-amber-500 mb-2 uppercase">Media</h4>
               <Link href="/news" className="hover:text-amber-500 transition-colors">News</Link>
-              <Link href="/videos" className="hover:text-amber-500 transition-colors">Videos</Link>
+              <Link href="/galleries?tab=videos" className="hover:text-amber-500 transition-colors">Videos</Link>
               <Link href="/galleries" className="hover:text-amber-500 transition-colors">Galleries</Link>
             </div>
             <div className="flex flex-col gap-3">
               <h4 className="font-bold text-amber-500 mb-2 uppercase">About</h4>
               <Link href="/about" className="hover:text-amber-500 transition-colors">About TPL</Link>
-              <Link href="/contact" className="hover:text-amber-500 transition-colors">Contact</Link>
+              <Link href="/community" className="hover:text-amber-500 transition-colors">Community</Link>
               <Link href="/sponsors" className="hover:text-amber-500 transition-colors">Sponsors</Link>
             </div>
           </div>

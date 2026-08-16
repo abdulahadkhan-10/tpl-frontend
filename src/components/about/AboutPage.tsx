@@ -13,7 +13,7 @@ export default function AboutPage() {
   const [activeTab, setActiveTab] = useState<'mission' | 'structure' | 'health'>('mission');
 
   return (
-    <main className="bg-white text-slate-800 min-h-screen pt-16 px-4 md:pt-24 font-sans">
+    <main className="bg-white text-slate-800 min-h-screen px-4 font-sans">
       <div className="max-w-7xl mx-auto">
         
         {/* Header Title */}

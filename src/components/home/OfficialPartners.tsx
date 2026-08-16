@@ -11,47 +11,47 @@ type Partner = {
 export default function OfficialPartners() {
   const partnersRow1: Partner[] = [
     {
-      name: "EA SPORTS FC",
+      name: "Matchday Manager",
       logo: (
         <svg viewBox="0 0 100 40" className="h-10 w-auto text-white fill-white">
           <circle cx="20" cy="20" r="16" stroke="currentColor" strokeWidth="2.5" fill="none" />
-          <path d="M15 15h10v3.5H18.5v3h5v3.5h-5v4H25V33H15zM22 17h10L27 31h-4z" />
-          <text x="42" y="25" fontSize="10" fontWeight="bold" fontFamily="sans-serif" fill="currentColor">SPORTS</text>
+          <path d="M13 26l7-14 7 14h-4l-1.4-3h-3.2L17 26h-4zm5.6-6h2.8L20 15.5 18.6 20z" />
+          <text x="42" y="25" fontSize="10" fontWeight="bold" fontFamily="sans-serif" fill="currentColor">MANAGER</text>
         </svg>
       )
     },
     {
-      name: "Adobe",
+      name: "Fieldwise Analytics",
       logo: (
         <svg viewBox="0 0 100 30" className="h-8 w-auto">
-          <polygon points="10,25 20,5 30,25" fill="#fa0f1b" />
-          <text x="36" y="22" fontSize="14" fontWeight="black" fontFamily="sans-serif" fill="#fa0f1b">Adobe</text>
+          <path d="M8 25V15M16 25V9M24 25V18" stroke="#0ea5e9" strokeWidth="3.5" strokeLinecap="round" />
+          <text x="32" y="22" fontSize="12" fontWeight="black" fontFamily="sans-serif" fill="#0ea5e9">FIELDWISE</text>
         </svg>
       )
     },
     {
-      name: "Barclays",
+      name: "Crestline Bank",
       logo: (
         <svg viewBox="0 0 100 30" className="h-7 w-auto">
-          <path d="M5 5l8 20L21 5h-4l-4 12-4-12H5z" fill="#00aeef" />
-          <text x="24" y="21" fontSize="14" fontWeight="black" fontFamily="sans-serif" fill="#00aeef">BARCLAYS</text>
+          <path d="M5 24V12l9-8 9 8v12H5z" fill="none" stroke="#1d4ed8" strokeWidth="2.5" />
+          <text x="27" y="21" fontSize="13" fontWeight="black" fontFamily="sans-serif" fill="#1d4ed8">CRESTLINE</text>
         </svg>
       )
     },
     {
-      name: "Coca-Cola",
+      name: "Solstice",
       logo: (
         <svg viewBox="0 0 100 30" className="h-9 w-auto">
-          <text x="0" y="22" fontSize="18" fontWeight="bold" fontStyle="italic" fontFamily="serif" letterSpacing="-1" fill="#f40009">Coca-Cola</text>
+          <text x="0" y="22" fontSize="18" fontWeight="bold" fontStyle="italic" fontFamily="serif" letterSpacing="-1" fill="#e11d48">Solstice</text>
         </svg>
       )
     },
     {
-      name: "Guinness",
+      name: "Northfield Foods",
       logo: (
         <svg viewBox="0 0 100 35" className="h-9 w-auto">
-          <path d="M10 5c0 0 8 3 8 9s-6 10-6 10s4-1 6-4s2-6 2-6s-4 4-8 1z" fill="#d4b26f" />
-          <text x="26" y="24" fontSize="13" fontWeight="bold" fontFamily="sans-serif" letterSpacing="0.5" fill="white">GUINNESS</text>
+          <path d="M8 22c4-8 12-14 20-14-2 8-10 14-20 14z" fill="#65a30d" />
+          <text x="30" y="24" fontSize="12" fontWeight="bold" fontFamily="sans-serif" letterSpacing="0.5" fill="white">NORTHFIELD</text>
         </svg>
       )
     }
@@ -59,59 +59,57 @@ export default function OfficialPartners() {
 
   const partnersRow2: Partner[] = [
     {
-      name: "Microsoft",
+      name: "Streamline Broadcast",
       logo: (
         <svg viewBox="0 0 100 30" className="h-7 w-auto">
-          <rect x="0" y="5" width="9" height="9" fill="#f25022" />
-          <rect x="10" y="5" width="9" height="9" fill="#7fba00" />
-          <rect x="0" y="15" width="9" height="9" fill="#00a4ef" />
-          <rect x="10" y="15" width="9" height="9" fill="#ffb900" />
-          <text x="24" y="21" fontSize="11" fontWeight="bold" fontFamily="sans-serif" fill="white">Microsoft</text>
+          <circle cx="7" cy="15" r="3" fill="#e2e8f0" />
+          <path d="M13 9a8.5 8.5 0 010 12M18 4a15 15 0 010 22" stroke="#e2e8f0" strokeWidth="2" fill="none" strokeLinecap="round" />
+          <text x="24" y="21" fontSize="10" fontWeight="bold" fontFamily="sans-serif" fill="white">STREAMLINE</text>
         </svg>
       )
     },
     {
-      name: "Puma",
+      name: "Duraline Sport",
       logo: (
         <svg viewBox="0 0 100 30" className="h-8 w-auto">
-          <path d="M5 25c5-2 9-5 12-9c3-4 6-5 9-3c3 2 5-1 4-4c-1-3-4-2-6 0c-2 2-5 5-9 6s-7 1-10 10" fill="#ff5f00" />
-          <text x="32" y="21" fontSize="14" fontWeight="black" fontFamily="sans-serif" fontStyle="italic" fill="white">PUMA</text>
+          <path d="M6 22L16 8l6 4-6 10z" fill="#ff5f00" />
+          <text x="26" y="21" fontSize="13" fontWeight="black" fontFamily="sans-serif" fontStyle="italic" fill="white">DURALINE</text>
         </svg>
       )
     },
     {
-      name: "Avery Dennison",
+      name: "Crestworks",
       logo: (
         <svg viewBox="0 0 100 30" className="h-6 w-auto">
-          <polygon points="5,25 15,5 25,25" fill="#ff0000" />
-          <polygon points="12,25 19,10 26,25" fill="#ff0000" fillOpacity="0.5" />
-          <text x="30" y="21" fontSize="9" fontWeight="bold" fontFamily="sans-serif" fill="white">AVERY DENNISON</text>
+          <polygon points="5,25 15,5 25,25" fill="#f97316" />
+          <text x="30" y="21" fontSize="10" fontWeight="bold" fontFamily="sans-serif" fill="white">CRESTWORKS</text>
         </svg>
       )
     },
     {
-      name: "Football Manager",
+      name: "Grassroots Alliance",
       logo: (
         <svg viewBox="0 0 100 30" className="h-8 w-auto">
-          <circle cx="15" cy="15" r="10" stroke="#00d4b2" strokeWidth="2.5" fill="none" />
-          <text x="30" y="21" fontSize="9" fontWeight="black" fontFamily="sans-serif" fill="white">FOOTBALL MANAGER</text>
+          <circle cx="15" cy="15" r="10" stroke="#22c55e" strokeWidth="2.5" fill="none" />
+          <path d="M11 15h8M15 11v8" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" />
+          <text x="30" y="21" fontSize="9" fontWeight="black" fontFamily="sans-serif" fill="white">GRASSROOTS ALLIANCE</text>
         </svg>
       )
     },
     {
-      name: "Rezzil",
+      name: "ReflexVR",
       logo: (
         <svg viewBox="0 0 100 30" className="h-7 w-auto">
-          <rect x="5" y="10" width="15" height="10" stroke="#00a3e0" strokeWidth="2.5" fill="none" />
-          <text x="26" y="21" fontSize="12" fontWeight="black" fontFamily="sans-serif" letterSpacing="1" fill="white">REZZIL</text>
+          <rect x="5" y="10" width="15" height="10" rx="3" stroke="#00a3e0" strokeWidth="2.5" fill="none" />
+          <text x="26" y="21" fontSize="12" fontWeight="black" fontFamily="sans-serif" letterSpacing="1" fill="white">REFLEXVR</text>
         </svg>
       )
     },
     {
-      name: "Topps",
+      name: "Statline Cards",
       logo: (
         <svg viewBox="0 0 100 30" className="h-8 w-auto">
-          <text x="30" y="22" fontSize="16" fontWeight="black" fontStyle="italic" fontFamily="sans-serif" fill="#e31b23">Topps</text>
+          <text x="30" y="22" fontSize="16" fontWeight="black" fontStyle="italic" fontFamily="sans-serif" fill="#a855f7">Statline</text>
         </svg>
       )
     }

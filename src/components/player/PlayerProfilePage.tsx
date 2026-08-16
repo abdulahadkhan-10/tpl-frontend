@@ -205,17 +205,22 @@ export default function PlayerProfilePage({ params }: PageProps) {
             </div>
 
             {/* Center Player Photo Showcase */}
-            <div className="lg:col-span-3 flex justify-center relative">
-              <div className="relative w-[220px] h-[260px] md:w-[250px] md:h-[300px] flex items-end justify-center">
-                {/* Glow ring background */}
-                <div className="absolute inset-0 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
+            <div className="lg:col-span-3 flex justify-center relative mt-8 lg:mt-0">
+              <div className="relative w-[240px] h-[320px] md:w-[280px] md:h-[360px] flex items-end justify-center">
+                {/* Heavy Glow behind player */}
+                <div className="absolute inset-0 bg-amber-500/20 rounded-full blur-3xl pointer-events-none scale-90" />
+                
                 <Image
-                  src="/images/player_placeholder.png"
+                  src="/images/player_placeholder_nobg.png"
                   alt={player.name}
                   fill
-                  className="object-contain object-bottom filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
+                  sizes="(max-width: 768px) 240px, 280px"
+                  className="object-contain object-bottom filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.7)] z-10 scale-[1.05]"
                   priority
                 />
+                
+                {/* Torso Fade-out Gradient */}
+                <div className="absolute bottom-[-2px] left-0 w-full h-24 bg-gradient-to-t from-[#0d1527] via-[#0d1527]/80 to-transparent z-20 pointer-events-none" />
               </div>
             </div>
 
@@ -333,47 +338,82 @@ export default function PlayerProfilePage({ params }: PageProps) {
               <Link 
                 key={index}
                 href={`/player/${slugify(teammate.name)}`}
-                className="group flex flex-col justify-between h-[360px] bg-[#0d1527] rounded-2xl border border-slate-800 hover:border-amber-500/80 hover:shadow-[0_8px_24px_rgba(245,158,11,0.12)] transition-all duration-300 overflow-hidden shadow-md cursor-pointer select-none relative"
+                className="group flex flex-col justify-between w-[260px] h-[400px] bg-gradient-to-br from-[#0d1527] via-[#090e1a] to-[#04060a] rounded-2xl border border-slate-800 hover:shadow-[0_20px_40px_rgba(245,158,11,0.15)] transition-all duration-300 overflow-hidden shadow-md cursor-pointer select-none relative mx-auto"
               >
-                {/* Background Grid Texture */}
+                {/* Inner Glow / Border */}
+                <div className="absolute inset-0 rounded-2xl border-[1.5px] border-white/10 group-hover:border-amber-500/50 transition-colors pointer-events-none z-30" />
+                
+                {/* Hex / Pattern Overlay */}
                 <div 
-                  className="absolute inset-0 opacity-20 pointer-events-none z-0"
+                  className="absolute inset-0 opacity-[0.10] mix-blend-overlay pointer-events-none z-0"
                   style={{
-                    backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.4) 1px, transparent 0)`,
-                    backgroundSize: "8px 8px"
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0V0zm10 17L3 13V7l7-4 7 4v6l-7 4z' fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+                    backgroundSize: "20px 20px"
                   }}
                 />
 
-                <div className="relative z-10 p-5 flex flex-col justify-between h-full">
-                  <div className="flex justify-between items-center">
-                    <span className="bg-black/50 border border-white/10 text-white text-[9px] font-black uppercase px-2.5 py-1 rounded-md font-mono">
-                      {teammate.nationality}
-                    </span>
-                    <span className="bg-amber-400 text-slate-950 font-black text-[10px] px-2 py-0.5 rounded shadow">
-                      {teammate.rating}
-                    </span>
-                  </div>
+                {/* Big OVR Background Number */}
+                <div className="absolute -top-2 -right-4 text-[150px] font-black italic text-white/[0.04] z-0 leading-none select-none tracking-tighter group-hover:scale-110 group-hover:text-amber-500/[0.05] transition-all duration-500">
+                  {teammate.rating}
+                </div>
 
-                  <div className="relative w-full h-[180px] my-auto flex items-end justify-center">
-                    <Image
-                      src="/images/player_placeholder.png"
-                      alt={teammate.name}
-                      fill
-                      className="object-contain object-bottom transform group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
+                {/* Top Left FUT Badges */}
+                <div className="absolute top-5 left-4 flex flex-col items-center z-20 drop-shadow-md">
+                  <span className="text-3xl font-black text-white leading-none tracking-tighter">{teammate.rating}</span>
+                  <span className="text-sm font-bold text-white/90 leading-none mt-1">{teammate.position}</span>
+                  <div className="w-8 h-[2px] bg-white/30 my-2" />
+                  <span className="text-[10px] font-black text-white uppercase tracking-wider">{teammate.nationality}</span>
+                  <span className="text-[10px] font-black text-white uppercase tracking-wider mt-1">{player.team.slice(0, 3)}</span>
+                </div>
 
-                  <div className="border-t border-white/10 pt-3">
-                    <span className="block text-[10px] text-white/70 italic font-semibold leading-none mb-1">
-                      {teammate.firstName}
-                    </span>
-                    <h4 className="text-lg font-black italic uppercase text-white leading-none tracking-tight group-hover:text-amber-500 transition-colors">
-                      {teammate.lastName}
-                    </h4>
-                    <span className="text-[9px] text-amber-500 font-extrabold uppercase tracking-wider block mt-1">
-                      {teammate.position}
-                    </span>
-                  </div>
+                {/* Player Image with Drop Shadow & Gradient Mask */}
+                <div className="absolute bottom-[75px] left-1/2 -translate-x-1/2 w-[240px] h-[280px] z-10 flex items-end justify-center">
+                  <Image
+                    src="/images/player_placeholder_nobg.png"
+                    alt={teammate.name}
+                    fill
+                    sizes="260px"
+                    className="object-contain object-bottom drop-shadow-[0_15px_15px_rgba(0,0,0,0.6)] transform group-hover:scale-[1.08] transition-transform duration-500 origin-bottom"
+                  />
+                </div>
+
+                {/* Bottom Glassmorphic Nameplate & Stats */}
+                <div className="absolute bottom-0 left-0 w-full z-20">
+                   {/* Fade into the nameplate */}
+                   <div className="h-10 w-full bg-gradient-to-t from-black/80 to-transparent" />
+                   
+                   <div className="bg-black/80 backdrop-blur-md p-4 pt-0 pb-4 flex flex-col items-center">
+                      <h3 className="text-lg md:text-xl font-black italic uppercase text-white tracking-wide text-center drop-shadow-md group-hover:text-amber-500 transition-colors">
+                        {teammate.name}
+                      </h3>
+                      <div className="w-full h-[1px] bg-white/10 my-2.5" />
+                      <div className="flex w-full justify-between px-2">
+                         <div className="flex flex-col items-center">
+                            <span className="text-white font-bold text-sm leading-none">{teammate.rating + 2}</span>
+                            <span className="text-white/50 text-[8px] font-bold uppercase mt-0.5">PAC</span>
+                         </div>
+                         <div className="flex flex-col items-center">
+                            <span className="text-white font-bold text-sm leading-none">{teammate.rating - 1}</span>
+                            <span className="text-white/50 text-[8px] font-bold uppercase mt-0.5">SHO</span>
+                         </div>
+                         <div className="flex flex-col items-center">
+                            <span className="text-white font-bold text-sm leading-none">{teammate.rating - 3}</span>
+                            <span className="text-white/50 text-[8px] font-bold uppercase mt-0.5">PAS</span>
+                         </div>
+                         <div className="flex flex-col items-center">
+                            <span className="text-white font-bold text-sm leading-none">{teammate.rating + 1}</span>
+                            <span className="text-white/50 text-[8px] font-bold uppercase mt-0.5">DRI</span>
+                         </div>
+                         <div className="flex flex-col items-center">
+                            <span className="text-white font-bold text-sm leading-none">{Math.max(45, teammate.rating - 30)}</span>
+                            <span className="text-white/50 text-[8px] font-bold uppercase mt-0.5">DEF</span>
+                         </div>
+                         <div className="flex flex-col items-center">
+                            <span className="text-white font-bold text-sm leading-none">{teammate.rating - 5}</span>
+                            <span className="text-white/50 text-[8px] font-bold uppercase mt-0.5">PHY</span>
+                         </div>
+                      </div>
+                   </div>
                 </div>
               </Link>
             ))}

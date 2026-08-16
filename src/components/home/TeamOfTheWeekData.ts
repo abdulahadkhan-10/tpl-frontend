@@ -37,23 +37,23 @@ export interface TeamOfTheWeekResponse {
 
 // Helper mock players to distribute across formations
 const mockPlayersList: Record<string, Player> = {
-  gk_1: { playerId: "gk-01", playerName: "Jack Porter", position: "GK", team: "Arsenal Academy", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder.png", rating: 94, matchweek: 8, stats: { goals: 0, assists: 0, minutes: 90 } },
-  gk_2: { playerId: "gk-02", playerName: "Billy Gil", position: "GK", team: "Chelsea Foundation", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder.png", rating: 88, matchweek: 8, stats: { goals: 0, assists: 0, minutes: 90 } },
+  gk_1: { playerId: "gk-01", playerName: "Jack Porter", position: "GK", team: "Arsenal Academy", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder_nobg.png", rating: 94, matchweek: 8, stats: { goals: 0, assists: 0, minutes: 90 } },
+  gk_2: { playerId: "gk-02", playerName: "Billy Gil", position: "GK", team: "Chelsea Foundation", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder_nobg.png", rating: 88, matchweek: 8, stats: { goals: 0, assists: 0, minutes: 90 } },
   
-  cb_1: { playerId: "cb-01", playerName: "Kaelan Casey", position: "CB", team: "West Ham United", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder.png", rating: 94, matchweek: 8, stats: { goals: 0, assists: 0, minutes: 90 } },
-  cb_2: { playerId: "cb-02", playerName: "Reece James Jr", position: "CB", team: "Chelsea Foundation", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder.png", rating: 87, matchweek: 8, stats: { goals: 1, assists: 0, minutes: 90 } },
-  cb_3: { playerId: "cb-03", playerName: "Charlie Crew", position: "CB", team: "Leeds Academy", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder.png", rating: 87, matchweek: 8, stats: { goals: 0, assists: 0, minutes: 90 } },
-  
-  lb_1: { playerId: "lb-01", playerName: "Myles Lewis-Skelly", position: "LB", team: "Arsenal Academy", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder.png", rating: 95, matchweek: 8, stats: { goals: 0, assists: 1, minutes: 90 } },
-  rb_1: { playerId: "rb-01", playerName: "George Earthy", position: "RB", team: "West Ham United", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder.png", rating: 97, matchweek: 8, stats: { goals: 0, assists: 0, minutes: 90 } },
-  
-  cdm_1: { playerId: "cdm-01", playerName: "Jobe Bellingham Jr", position: "CDM", team: "Birmingham City", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder.png", rating: 98, matchweek: 8, stats: { goals: 1, assists: 0, minutes: 90 } },
-  cm_1: { playerId: "cm-01", playerName: "Billy Gil", position: "CM", team: "Chelsea Foundation", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder.png", rating: 94, matchweek: 8, stats: { goals: 1, assists: 2, minutes: 90 } },
-  cm_2: { playerId: "cm-02", playerName: "Ethan Nwaneri Jr", position: "CM", team: "Arsenal Academy", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder.png", rating: 93, matchweek: 8, stats: { goals: 0, assists: 0, minutes: 90 } },
-  
-  lw_1: { playerId: "lw-01", playerName: "Elhan Davies", position: "LW", team: "London United", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder.png", rating: 96, matchweek: 8, stats: { goals: 2, assists: 1, minutes: 90 } },
-  rw_1: { playerId: "rw-01", playerName: "Tyler Dibling", position: "RW", team: "Southampton Youth", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder.png", rating: 92, matchweek: 8, stats: { goals: 1, assists: 1, minutes: 90 } },
-  st_1: { playerId: "st-01", playerName: "Mikey Moore", position: "ST", team: "Tottenham Hotspur", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder.png", rating: 98, matchweek: 8, stats: { goals: 3, assists: 0, minutes: 90 } },
+  cb_1: { playerId: "cb-01", playerName: "Kaelan Casey", position: "CB", team: "West Ham United", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder_nobg.png", rating: 94, matchweek: 8, stats: { goals: 0, assists: 0, minutes: 90 } },
+  cb_2: { playerId: "cb-02", playerName: "Reece Whitlock", position: "CB", team: "Chelsea Foundation", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder_nobg.png", rating: 87, matchweek: 8, stats: { goals: 1, assists: 0, minutes: 90 } },
+  cb_3: { playerId: "cb-03", playerName: "Charlie Crew", position: "CB", team: "Leeds Academy", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder_nobg.png", rating: 87, matchweek: 8, stats: { goals: 0, assists: 0, minutes: 90 } },
+
+  lb_1: { playerId: "lb-01", playerName: "Myles Okafor", position: "LB", team: "Arsenal Academy", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder_nobg.png", rating: 95, matchweek: 8, stats: { goals: 0, assists: 1, minutes: 90 } },
+  rb_1: { playerId: "rb-01", playerName: "George Whitfield", position: "RB", team: "West Ham Academy", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder_nobg.png", rating: 97, matchweek: 8, stats: { goals: 0, assists: 0, minutes: 90 } },
+
+  cdm_1: { playerId: "cdm-01", playerName: "Jobe Kingsley", position: "CDM", team: "Birmingham Foundation", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder_nobg.png", rating: 98, matchweek: 8, stats: { goals: 1, assists: 0, minutes: 90 } },
+  cm_1: { playerId: "cm-01", playerName: "Billy Gil", position: "CM", team: "Chelsea Foundation", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder_nobg.png", rating: 94, matchweek: 8, stats: { goals: 1, assists: 2, minutes: 90 } },
+  cm_2: { playerId: "cm-02", playerName: "Ethan Priestley", position: "CM", team: "Arsenal Academy", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder_nobg.png", rating: 93, matchweek: 8, stats: { goals: 0, assists: 0, minutes: 90 } },
+
+  lw_1: { playerId: "lw-01", playerName: "Elhan Davies", position: "LW", team: "London United", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder_nobg.png", rating: 96, matchweek: 8, stats: { goals: 2, assists: 1, minutes: 90 } },
+  rw_1: { playerId: "rw-01", playerName: "Tyler Ashcombe", position: "RW", team: "Southampton Youth", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder_nobg.png", rating: 92, matchweek: 8, stats: { goals: 1, assists: 1, minutes: 90 } },
+  st_1: { playerId: "st-01", playerName: "Mikey Fontaine", position: "ST", team: "Tottenham Academy", teamLogo: "/images/TPL_logo_White.png", playerImage: "/images/player_placeholder_nobg.png", rating: 98, matchweek: 8, stats: { goals: 3, assists: 0, minutes: 90 } },
 };
 
 // Return a configuration of 11 players placed based on formation grid coordinates.
@@ -171,19 +171,19 @@ export const mockRankings: Record<string, { name: string; team: string; rating: 
     { name: "Val Adedokun", team: "Brentford Academy", rating: 84, teamLogo: "/images/TPL_logo_White.png" },
   ],
   DEF: [
-    { name: "Myles Lewis-Skelly", team: "Arsenal Academy", rating: 95, teamLogo: "/images/TPL_logo_White.png" },
+    { name: "Myles Okafor", team: "Arsenal Academy", rating: 95, teamLogo: "/images/TPL_logo_White.png" },
     { name: "Kaelan Casey", team: "West Ham United", rating: 94, teamLogo: "/images/TPL_logo_White.png" },
-    { name: "George Earthy", team: "West Ham United", rating: 97, teamLogo: "/images/TPL_logo_White.png" },
-    { name: "Reece James Jr", team: "Chelsea Foundation", rating: 87, teamLogo: "/images/TPL_logo_White.png" },
+    { name: "George Whitfield", team: "West Ham Academy", rating: 97, teamLogo: "/images/TPL_logo_White.png" },
+    { name: "Reece Whitlock", team: "Chelsea Foundation", rating: 87, teamLogo: "/images/TPL_logo_White.png" },
   ],
   MID: [
-    { name: "Jobe Bellingham Jr", team: "Birmingham City", rating: 98, teamLogo: "/images/TPL_logo_White.png" },
+    { name: "Jobe Kingsley", team: "Birmingham Foundation", rating: 98, teamLogo: "/images/TPL_logo_White.png" },
     { name: "Billy Gil", team: "Chelsea Foundation", rating: 94, teamLogo: "/images/TPL_logo_White.png" },
-    { name: "Ethan Nwaneri Jr", team: "Arsenal Academy", rating: 93, teamLogo: "/images/TPL_logo_White.png" },
+    { name: "Ethan Priestley", team: "Arsenal Academy", rating: 93, teamLogo: "/images/TPL_logo_White.png" },
   ],
   ATT: [
-    { name: "Mikey Moore", team: "Tottenham Hotspur", rating: 98, teamLogo: "/images/TPL_logo_White.png" },
+    { name: "Mikey Fontaine", team: "Tottenham Academy", rating: 98, teamLogo: "/images/TPL_logo_White.png" },
     { name: "Elhan Davies", team: "London United", rating: 96, teamLogo: "/images/TPL_logo_White.png" },
-    { name: "Tyler Dibling", team: "Southampton Youth", rating: 92, teamLogo: "/images/TPL_logo_White.png" },
+    { name: "Tyler Ashcombe", team: "Southampton Youth", rating: 92, teamLogo: "/images/TPL_logo_White.png" },
   ],
 };

@@ -4,6 +4,8 @@ import React, { useRef } from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Calendar } from "lucide-react";
 
+const slugify = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
+
 type MatchCardData = {
   id: number;
   status: "scheduled" | "live" | "finished";
@@ -184,6 +186,16 @@ const matchesData: MatchCardData[] = [
   }
 ];
 
+const matchDays = matchesData
+  .map((m) => {
+    const dayMatch = m.timeText.match(/(\d{1,2})\s*AUG/i);
+    return dayMatch ? parseInt(dayMatch[1], 10) : null;
+  })
+  .filter((d): d is number => d !== null);
+const dateRangeLabel = matchDays.length
+  ? `August ${Math.min(...matchDays)} - August ${Math.max(...matchDays)}`
+  : "";
+
 export default function FixturesPreview() {
   const carouselRef = useRef<HTMLDivElement>(null);
 
@@ -207,7 +219,7 @@ export default function FixturesPreview() {
               MATCHES
             </h2>
             <p className="text-slate-500 text-[10px] md:text-xs font-semibold mt-1 tracking-wide font-mono">
-              August 13 - August 18
+              {dateRangeLabel}
             </p>
           </div>
           
@@ -258,13 +270,13 @@ export default function FixturesPreview() {
 
                 <div className="relative z-10 w-full h-full flex flex-col justify-between">
                   {/* 1. Header (Date / Time) */}
-                  <div className="flex justify-between items-center text-[9px] font-black italic tracking-wide text-slate-550 border-b border-slate-100 pb-1.5 w-full">
+                  <div className="flex justify-between items-center text-[9px] font-black italic tracking-wide text-slate-600 border-b border-slate-100 pb-1.5 w-full">
                     <div className="flex items-center gap-1 uppercase font-mono">
                       {isLive ? (
                         <span className="flex items-center gap-1.5 text-red-600 font-extrabold">
                           <span className="relative flex h-2 w-2">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-650"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
                           </span>
                           LIVE
                         </span>
@@ -317,9 +329,13 @@ export default function FixturesPreview() {
                   </div>
 
                   {/* 3. Action Link Button */}
-                  <Link 
-                    href={match.btnHref}
-                    className="w-full py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider transition-all flex items-center justify-center cursor-pointer border border-[#ff9f1c]/70 hover:bg-[#ff9f1c] hover:text-slate-950 text-slate-700 font-bold bg-slate-50"
+                  <Link
+                    href={
+                      match.status === "live"
+                        ? match.btnHref
+                        : `/match/${match.id}/${slugify(match.home)}-vs-${slugify(match.away)}`
+                    }
+                    className="w-full py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider transition-all flex items-center justify-center cursor-pointer border border-amber-500/70 hover:bg-amber-500 hover:text-slate-950 text-slate-700 font-bold bg-slate-50"
                   >
                     <span>{match.btnText}</span>
                   </Link>

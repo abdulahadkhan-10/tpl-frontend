@@ -5,7 +5,6 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import FixturesPreview from "@/components/home/FixturesPreview";
-import AdCarousel from "@/components/home/AdCarousel";
 import LatestNews from "@/components/home/LatestNews";
 import TeamOfTheWeek from "@/components/home/TeamOfTheWeek";
 import PlayerSpotlight from "@/components/home/PlayerSpotlight";
@@ -16,13 +15,13 @@ export default function HomePage() {
   const [currentSlide, setCurrentSlide] = React.useState(0);
 
   const slides = [
-    { 
-      tag: "TPL MEN'S LEAGUE", 
-      titleLine1: "UNCOMPROMISING",
-      highlight: "COMPETITION",
-      titleLine3: "ON THE PITCH",
-      desc: "The absolute pinnacle of local elite football, where the fiercest teams battle for regional supremacy.",
-      image: "/images/slider/sliderMen.png",
+    {
+      tag: "TPL MEN'S LEAGUE",
+      titleLine1: "EVERY MATCHDAY",
+      highlight: "SOMEONE",
+      titleLine3: "GETS DISCOVERED",
+      desc: "Real fixtures, real form, real scouts watching. This is where local talent proves it belongs at the next level.",
+      image: "/images/slider/tpl-slide1-matchday.png",
       btn1Text: "Register Now",
       btn1Href: "/register",
       btn2Text: "View Teams",
@@ -34,7 +33,7 @@ export default function HomePage() {
       highlight: "JOURNEY",
       titleLine3: "STARTS HERE",
       desc: "Witness the evolution of the next generation. TPL's new season brings unprecedented talent to the forefront of modern football.",
-      image: "/images/tpl_action.png",
+      image: "/images/slider/tpl-slide2-journey.png",
       btn1Text: "Explore Standings",
       btn1Href: "/standings",
       btn2Text: "Watch Highlights",
@@ -46,19 +45,19 @@ export default function HomePage() {
       highlight: "FUTURE",
       titleLine3: "OF FOOTBALL",
       desc: "Unearthing and nurturing the finest young footballing talents from raw capabilities to professional careers.",
-      image: "/images/slider/a.jpg",
+      image: "/images/slider/tpl-academy-banner.png",
       btn1Text: "Apprenticeships",
       btn1Href: "/apprenticeships",
       btn2Text: "Scouting Portal",
       btn2Href: "/scouting"
     },
     { 
-      tag: "TPL WOMEN'S LEAGUE", 
-      titleLine1: "BREAKING NEW",
-      highlight: "GROUND",
-      titleLine3: "TOGETHER",
-      desc: "Showcasing world-class athletic excellence, precision, and tactical maturity on the national stage.",
-      image: "/images/slider/foot.jpg",
+      tag: "TPL ELITE SHOWCASE", 
+      titleLine1: "ELEVATING THE",
+      highlight: "STANDARD",
+      titleLine3: "OF COMPETITION",
+      desc: "Experience high-octane elite men's football where athletic excellence meets tactical mastery on the national stage.",
+      image: "/images/slider/tpl-slide4-elite.png",
       btn1Text: "Fixtures",
       btn1Href: "/fixtures",
       btn2Text: "Join Community",
@@ -86,26 +85,17 @@ export default function HomePage() {
   const activeSlide = slides[currentSlide];
 
   return (
-    <main className="flex min-h-screen flex-col w-full bg-slate-50/30 pt-24">
-      {/* 1. Fixtures Bar */}
-      <FixturesPreview />
-
-      {/* 2. Ad Carousel */}
-      <AdCarousel />
-
-      {/* 3. Hero Section: The Raw to Pro Journey Starts Here */}
-      <section 
+    <main className="flex min-h-screen flex-col w-full bg-slate-50/30">
+      {/* 1. Hero Section: The Raw to Pro Journey Starts Here */}
+      <section
         className="relative min-h-[500px] md:min-h-[600px] w-full flex items-center justify-start bg-slate-950 overflow-hidden"
-        style={{
-          clipPath: "polygon(0 0, 100% 0, 100% 85%, 0 95%)",
-        }}
       >
         {/* Background Image with Dark Blue Overlay and fade transition */}
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
             initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 0.5, scale: 1 }}
+            animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
             className="absolute inset-0 bg-cover bg-center select-none pointer-events-none"
@@ -113,7 +103,7 @@ export default function HomePage() {
           />
         </AnimatePresence>
         
-        <div className="absolute inset-0 bg-gradient-to-r from-[#031b44]/90 via-[#06204c]/75 to-[#0b2b5c]/50 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#031b44]/90 via-[#06204c]/60 to-[#0b2b5c]/20 mix-blend-multiply" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-12 md:px-20 w-full py-20 flex flex-col items-start text-left space-y-6">
           <AnimatePresence mode="wait">
@@ -126,14 +116,14 @@ export default function HomePage() {
               className="flex flex-col items-start text-left space-y-6 w-full"
             >
               {/* Season Badge */}
-              <span className="inline-block bg-[#ffc842] text-slate-950 font-black text-xs px-3.5 py-1.5 rounded-full uppercase tracking-wider">
+              <span className="inline-block bg-amber-400 text-slate-950 font-black text-xs px-3.5 py-1.5 rounded-full uppercase tracking-wider">
                 {activeSlide.tag}
               </span>
 
               {/* Heading */}
               <h1 className="text-4xl md:text-7xl font-black italic uppercase leading-none tracking-tight text-white max-w-3xl min-h-[140px] md:min-h-[220px]">
                 {activeSlide.titleLine1} <br />
-                <span className="text-[#ffc842]">{activeSlide.highlight}</span> <br />
+                <span className="text-amber-400">{activeSlide.highlight}</span> <br />
                 {activeSlide.titleLine3}
               </h1>
 
@@ -146,7 +136,7 @@ export default function HomePage() {
               <div className="flex flex-wrap gap-4 pt-2">
                 <Link 
                   href={activeSlide.btn1Href}
-                  className="group relative overflow-hidden px-6 py-3 bg-[#ffc842] text-slate-950 font-black rounded-lg text-sm uppercase tracking-wide flex items-center gap-2 shadow-[0_0_15px_rgba(255,200,66,0.3)] transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(255,200,66,0.6)]"
+                  className="group relative overflow-hidden px-6 py-3 bg-amber-400 text-slate-950 font-black rounded-lg text-sm uppercase tracking-wide flex items-center gap-2 shadow-[0_0_15px_rgba(251,191,36,0.3)] transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(251,191,36,0.6)]"
                 >
                   <span className="relative z-10">{activeSlide.btn1Text}</span>
                   <ArrowRight size={16} strokeWidth={2.5} className="relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
@@ -166,13 +156,13 @@ export default function HomePage() {
         {/* Manual Slider Navigation Controls - Vertically centered on edges */}
         <button 
           onClick={prevSlide}
-          className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full border border-white/20 hover:border-white/50 bg-[#0d0f14]/40 hover:bg-[#ffc842] hover:text-black text-white transition-all cursor-pointer shadow-lg"
+          className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full border border-white/20 hover:border-white/50 bg-[#0d0f14]/40 hover:bg-amber-400 hover:text-slate-950 text-white transition-all cursor-pointer shadow-lg"
         >
           ←
         </button>
         <button 
           onClick={nextSlide}
-          className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full border border-white/20 hover:border-white/50 bg-[#0d0f14]/40 hover:bg-[#ffc842] hover:text-black text-white transition-all cursor-pointer shadow-lg"
+          className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full border border-white/20 hover:border-white/50 bg-[#0d0f14]/40 hover:bg-amber-400 hover:text-slate-950 text-white transition-all cursor-pointer shadow-lg"
         >
           →
         </button>
@@ -184,14 +174,17 @@ export default function HomePage() {
               key={idx}
               onClick={() => setCurrentSlide(idx)}
               className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                idx === currentSlide ? "w-8 bg-[#ffc842]" : "w-2 bg-white/40"
+                idx === currentSlide ? "w-8 bg-amber-400" : "w-2 bg-white/40"
               }`}
             />
           ))}
         </div>
       </section>
 
-      {/* 4. League Standings Section */}
+      {/* 2. Fixtures Bar */}
+      <FixturesPreview />
+
+      {/* 3. League Standings Section */}
       <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto w-full">
         <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-center">
           
@@ -215,8 +208,8 @@ export default function HomePage() {
 
           {/* Right Column: Mini Standings Table */}
           <div className="md:col-span-7">
-            <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-hidden">
-              <table className="w-full text-left border-collapse text-xs md:text-sm">
+            <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-x-auto">
+              <table className="w-full min-w-[480px] text-left border-collapse text-xs md:text-sm">
                 <thead>
                   <tr className="border-b border-slate-100 text-slate-400 font-bold bg-slate-50/50">
                     <th className="py-3 px-4 text-center w-12">Pos</th>
@@ -268,10 +261,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. Rest of the Sections */}
-      <LatestNews />
+      {/* 4. Rest of the Sections */}
       <TeamOfTheWeek />
       <PlayerSpotlight />
+      <LatestNews />
       <Highlights />
       <OfficialPartners />
     </main>

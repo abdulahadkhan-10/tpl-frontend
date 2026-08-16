@@ -50,7 +50,7 @@ function GalleriesContent() {
   const springConfig = { type: 'spring', damping: 15, stiffness: 100 } as const;
 
   return (
-    <main className="min-h-screen bg-slate-50/50 pt-24 font-sans">
+    <main className="min-h-screen bg-slate-50/50 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         {/* Page Header */}

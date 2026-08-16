@@ -49,7 +49,7 @@ export default function StandingsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-white text-slate-900 font-sans pt-24">
+    <main className="min-h-screen bg-white text-slate-900 font-sans">
       <div className="max-w-[1400px] mx-auto px-4 md:px-12">
         
         {/* Header Title */}
