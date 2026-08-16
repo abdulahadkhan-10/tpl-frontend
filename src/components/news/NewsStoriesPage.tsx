@@ -187,13 +187,13 @@ export default function NewsStoriesPage() {
           <AnimatePresence mode="popLayout">
             {filteredArticles
               .filter(art => !art.featured || (searchQuery !== '' || activeCategory !== 'All'))
-              .map((art) => (
+              .map((art, i) => (
                 <motion.div 
                   layout
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  transition={springConfig}
+                  transition={{ ...springConfig, delay: i * 0.05 }}
                   key={art.id} 
                   className="bg-white border border-slate-100 rounded-3xl overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.01)] hover:shadow-md transition-shadow flex flex-col justify-between min-h-[360px] group"
                 >

@@ -22,6 +22,7 @@ const navItems = [
 export default function Navbar() {
   const pathname = usePathname();
   const [isMoving, setIsMoving] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -30,79 +31,64 @@ export default function Navbar() {
 
   React.useEffect(() => {
     setIsMoving(true);
-    const timer = setTimeout(() => setIsMoving(false), 450); // Matches the spring transition time
+    const timer = setTimeout(() => setIsMoving(false), 450);
     return () => clearTimeout(timer);
   }, [pathname]);
 
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <nav className="w-full bg-[#2a1236] text-white py-6 px-6 md:px-12 flex items-center justify-between z-50 sticky top-0 border-b border-white/10 shadow-lg">
-      {/* Logo Area */}
-      <div className="flex items-center gap-2">
-        <Link href="/">
+    <nav 
+      className={`w-full py-4 md:py-5 px-6 md:px-12 flex items-center justify-between z-50 fixed top-0 transition-all duration-300 ease-in-out ${
+        scrolled 
+          ? "bg-slate-950/95 backdrop-blur-md border-b border-slate-800 shadow-lg" 
+          : "bg-slate-950 border-b border-transparent shadow-sm"
+      }`}
+    >
+      {/* Logo Area - Aligned Left */}
+      <div className="flex-none flex items-center justify-start">
+        <Link href="/" className="relative z-10 flex items-center">
           <Image
             src="/images/TPL_logo_White.png"
             alt="TPL Logo"
-            width={72}
-            height={72}
+            width={76}
+            height={76}
             className="object-contain"
           />
         </Link>
       </div>
 
-      {/* Primary Navigation - Desktop */}
-      <div className="hidden lg:flex items-center space-x-6 text-base font-semibold tracking-wide text-gray-200">
+      {/* Primary Navigation - Balanced Center */}
+      <div className="hidden xl:flex flex-1 items-center justify-center space-x-4 xl:space-x-6 text-[13px] font-bold tracking-wider text-gray-200">
         {navItems.map((item) => {
           const active = isActive(item.href);
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={`relative py-1.5 transition-colors duration-300 hover:text-[#ffc842] ${
-                active ? "text-[#ffc842] font-extrabold" : "text-gray-300"
-              } flex items-center gap-1`}
+              className={`relative py-2 transition-colors duration-300 hover:text-amber-400 ${
+                active ? "text-amber-400 font-extrabold" : "text-gray-300"
+              } flex items-center gap-1.5 uppercase whitespace-nowrap`}
             >
               <span>{item.name}</span>
               {item.hasDropdown && <ChevronDown size={14} className="opacity-80" />}
               {active && (
                 <motion.div
                   layoutId="navbar-active-line"
-                  className="absolute bottom-[-25px] left-0 right-0 h-[2.5px] bg-[#ffc842]/50 rounded-full flex items-center justify-center overflow-visible"
+                  className="absolute bottom-[-24px] left-0 right-0 h-[3px] bg-amber-400/50 rounded-full flex items-center justify-center overflow-visible"
                   transition={{
                     type: "spring",
                     stiffness: 380,
                     damping: 26,
                   }}
                 >
-                  {/* Glowing Laser Base Line in Brand Gold */}
-                  <div className="absolute inset-0 bg-[#ffc842] rounded-full shadow-[0_0_8px_rgba(255,200,66,0.7)]" />
-                  
-                  {/* Minimal Electric Pulse Wave (Only shown when moving) */}
-                  {isMoving && (
-                    <div className="absolute inset-0 w-full h-full overflow-visible pointer-events-none">
-                      <svg 
-                        className="absolute -top-[4px] left-0 w-full h-[10px] text-[#ffc842] overflow-visible" 
-                        viewBox="0 0 100 10" 
-                        preserveAspectRatio="none"
-                      >
-                        <motion.path
-                          d="M 0,5 H 35 L 38,3 L 41,7 L 44,2 L 47,8 L 50,3 L 53,7 L 56,5 H 100"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="1.2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          initial={{ pathLength: 0.3, pathOffset: 0 }}
-                          animate={{ pathOffset: [0, 0.7] }}
-                          transition={{
-                            repeat: Infinity,
-                            ease: "linear",
-                            duration: 0.3,
-                          }}
-                          className="drop-shadow-[0_0_3px_#f2aa00]"
-                        />
-                      </svg>
-                    </div>
-                  )}
+                  <div className="absolute inset-0 bg-amber-400 rounded-full shadow-[0_0_10px_rgba(251,191,36,0.6)]" />
                 </motion.div>
               )}
             </Link>
@@ -110,24 +96,24 @@ export default function Navbar() {
         })}
       </div>
 
-      {/* Right Side Actions */}
-      <div className="hidden lg:flex items-center gap-4">
+      {/* Right Side Actions - Aligned Right */}
+      <div className="hidden xl:flex flex-none items-center justify-end gap-4">
+        <Link href="/login" className="border border-slate-700 text-slate-200 hover:bg-slate-800 hover:text-white font-bold py-2 px-5 rounded-xl text-xs transition-all tracking-wider uppercase whitespace-nowrap">
+          Login
+        </Link>
         <Link 
           href="/register" 
-          className="relative group overflow-hidden bg-gradient-to-r from-amber-400 to-amber-500 text-black font-black py-2 px-6 rounded-full text-xs transition-all tracking-wider shadow-[0_0_15px_rgba(245,158,11,0.45)] hover:shadow-[0_0_25px_rgba(245,158,11,0.75)] hover:scale-105 transform inline-flex items-center gap-1.5"
+          className="relative group overflow-hidden bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black py-2.5 px-6 rounded-xl text-xs transition-all tracking-wider uppercase shadow-[0_0_12px_rgba(245,158,11,0.4)] hover:shadow-[0_0_20px_rgba(245,158,11,0.6)] hover:scale-105 transform inline-flex items-center gap-1 whitespace-nowrap"
         >
-          <span>REGISTER</span>
+          <span>Register</span>
           <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
-        </Link>
-        <Link href="/login" className="border border-white/20 text-white hover:bg-white/10 font-bold py-2 px-5 rounded-full text-xs transition-all">
-          LOGIN
         </Link>
       </div>
 
       {/* Mobile Menu Toggle */}
-      <div className="lg:hidden flex items-center">
-        <button className="text-white hover:text-[#ffc842]">
-          <Menu size={28} />
+      <div className="xl:hidden flex items-center justify-end flex-1">
+        <button className="text-white hover:text-amber-400 transition-colors">
+          <Menu size={32} />
         </button>
       </div>
     </nav>

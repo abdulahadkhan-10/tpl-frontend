@@ -3,6 +3,7 @@
 import React, { use } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion, useScroll } from "framer-motion";
 import { ArrowLeft, Clock, MessageSquare, Share2, Bookmark, Sparkles, Heart } from "lucide-react";
 import { articlesData } from "./NewsData";
 
@@ -22,6 +23,8 @@ export default function NewsDetailPage({ params }: PageProps) {
   const [hasLiked, setHasLiked] = React.useState(false);
   const [isBookmarked, setIsBookmarked] = React.useState(false);
 
+  const { scrollYProgress } = useScroll();
+
   const handleLike = () => {
     if (hasLiked) {
       setLikes((prev) => prev - 1);
@@ -39,6 +42,12 @@ export default function NewsDetailPage({ params }: PageProps) {
 
   return (
     <main className="min-h-screen bg-slate-50/50 text-slate-900 font-sans pb-24">
+      {/* Reading Progress Bar */}
+      <motion.div 
+        className="fixed top-0 left-0 right-0 h-1.5 bg-indigo-600 origin-left z-[100]"
+        style={{ scaleX: scrollYProgress }}
+      />
+      
       {/* Top Breadcrumbs */}
       <div className="max-w-[800px] mx-auto px-6 pt-8 pb-4">
         <Link 
@@ -120,7 +129,7 @@ export default function NewsDetailPage({ params }: PageProps) {
         </div>
 
         {/* Full Article Content */}
-        <article className="bg-white rounded-3xl p-6 md:p-10 border border-slate-200/80 shadow-sm text-slate-800 leading-relaxed text-sm md:text-base font-medium space-y-6">
+        <article className="bg-white rounded-3xl p-8 md:p-12 border border-slate-200/80 shadow-sm text-slate-800 leading-[1.8] text-base md:text-lg tracking-[0.015em] font-medium space-y-8">
           {article.content.split("\n\n").map((para, idx) => (
             <p key={idx} className="first-letter:text-3xl first-letter:font-black first-letter:float-left first-letter:mr-2 first-letter:text-amber-600 first-letter:leading-none">
               {idx === 0 ? para : para.replace(/^[A-Z]/, (c) => c)}

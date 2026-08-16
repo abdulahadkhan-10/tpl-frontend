@@ -567,11 +567,18 @@ export default function ScoutingPage() {
         {/* PLAYER DETAILS MODAL */}
         <AnimatePresence>
           {selectedPlayer && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md"
+            >
               <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 20, scale: 0.95 }}
+                transition={springConfig}
                 className="bg-white border border-slate-100 rounded-3xl w-full max-w-[550px] shadow-2xl overflow-hidden flex flex-col justify-between max-h-[90vh]"
               >
                 <div className="bg-slate-950 p-6 text-white flex items-center justify-between">
@@ -624,8 +631,13 @@ export default function ScoutingPage() {
                             <span>{attr}</span>
                             <span className="text-indigo-600">{val}</span>
                           </div>
-                          <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
-                            <motion.div initial={{ width: 0 }} animate={{ width: `${val}%` }} className="h-full bg-indigo-600 rounded-full" />
+                          <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden relative group">
+                            <motion.div 
+                              initial={{ width: 0 }} 
+                              animate={{ width: `${val}%` }} 
+                              transition={{ type: "spring", stiffness: 60, damping: 12, delay: 0.1 }}
+                              className="h-full bg-indigo-600 rounded-full group-hover:bg-amber-500 transition-colors" 
+                            />
                           </div>
                         </div>
                       ))}
@@ -764,7 +776,7 @@ export default function ScoutingPage() {
                   </motion.button>
                 </div>
               </motion.div>
-            </div>
+            </motion.div>
           )}
         </AnimatePresence>
 

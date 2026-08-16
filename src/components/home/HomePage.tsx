@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import FixturesPreview from "@/components/home/FixturesPreview";
 import AdCarousel from "@/components/home/AdCarousel";
@@ -85,7 +86,7 @@ export default function HomePage() {
   const activeSlide = slides[currentSlide];
 
   return (
-    <main className="flex min-h-screen flex-col w-full bg-slate-50/30">
+    <main className="flex min-h-screen flex-col w-full bg-slate-50/30 pt-24">
       {/* 1. Fixtures Bar */}
       <FixturesPreview />
 
@@ -100,54 +101,66 @@ export default function HomePage() {
         }}
       >
         {/* Background Image with Dark Blue Overlay and fade transition */}
-        {slides.map((slide, idx) => (
-          <div
-            key={idx}
-            className={`absolute inset-0 bg-cover bg-center select-none pointer-events-none transition-opacity duration-1000 ease-in-out ${
-              idx === currentSlide ? "opacity-50" : "opacity-0"
-            }`}
-            style={{
-              backgroundImage: `url('${slide.image}')`,
-            }}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSlide}
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 0.5, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="absolute inset-0 bg-cover bg-center select-none pointer-events-none"
+            style={{ backgroundImage: `url('${activeSlide.image}')` }}
           />
-        ))}
+        </AnimatePresence>
         
         <div className="absolute inset-0 bg-gradient-to-r from-[#031b44]/90 via-[#06204c]/75 to-[#0b2b5c]/50 mix-blend-multiply" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-12 md:px-20 w-full py-20 flex flex-col items-start text-left space-y-6">
-          {/* Season Badge */}
-          <span className="inline-block bg-[#ffc842] text-slate-950 font-black text-xs px-3.5 py-1.5 rounded-full uppercase tracking-wider">
-            {activeSlide.tag}
-          </span>
-
-          {/* Heading */}
-          <h1 className="text-4xl md:text-7xl font-black italic uppercase leading-none tracking-tight text-white max-w-3xl min-h-[140px] md:min-h-[220px] transition-all duration-500">
-            {activeSlide.titleLine1} <br />
-            <span className="text-[#ffc842]">{activeSlide.highlight}</span> <br />
-            {activeSlide.titleLine3}
-          </h1>
-
-          {/* Subtitle */}
-          <p className="max-w-xl text-gray-300 text-sm md:text-base font-medium leading-relaxed italic min-h-[60px] transition-all duration-500">
-            {activeSlide.desc}
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-wrap gap-4 pt-2">
-            <Link 
-              href={activeSlide.btn1Href}
-              className="px-6 py-3 bg-[#ffc842] hover:bg-[#e6b43b] text-slate-950 font-black rounded-lg text-sm uppercase tracking-wide transition-colors flex items-center gap-2 shadow-lg animate-pulse"
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`text-${currentSlide}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="flex flex-col items-start text-left space-y-6 w-full"
             >
-              <span>{activeSlide.btn1Text}</span>
-              <ArrowRight size={16} strokeWidth={2.5} />
-            </Link>
-            <Link 
-              href={activeSlide.btn2Href} 
-              className="px-6 py-3 border border-white/30 hover:bg-white/10 text-white font-bold rounded-lg text-sm uppercase tracking-wide transition-all"
-            >
-              {activeSlide.btn2Text}
-            </Link>
-          </div>
+              {/* Season Badge */}
+              <span className="inline-block bg-[#ffc842] text-slate-950 font-black text-xs px-3.5 py-1.5 rounded-full uppercase tracking-wider">
+                {activeSlide.tag}
+              </span>
+
+              {/* Heading */}
+              <h1 className="text-4xl md:text-7xl font-black italic uppercase leading-none tracking-tight text-white max-w-3xl min-h-[140px] md:min-h-[220px]">
+                {activeSlide.titleLine1} <br />
+                <span className="text-[#ffc842]">{activeSlide.highlight}</span> <br />
+                {activeSlide.titleLine3}
+              </h1>
+
+              {/* Subtitle */}
+              <p className="max-w-xl text-gray-300 text-sm md:text-base font-medium leading-relaxed italic min-h-[60px]">
+                {activeSlide.desc}
+              </p>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-wrap gap-4 pt-2">
+                <Link 
+                  href={activeSlide.btn1Href}
+                  className="group relative overflow-hidden px-6 py-3 bg-[#ffc842] text-slate-950 font-black rounded-lg text-sm uppercase tracking-wide flex items-center gap-2 shadow-[0_0_15px_rgba(255,200,66,0.3)] transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(255,200,66,0.6)]"
+                >
+                  <span className="relative z-10">{activeSlide.btn1Text}</span>
+                  <ArrowRight size={16} strokeWidth={2.5} className="relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
+                  <div className="absolute inset-0 bg-white/30 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                </Link>
+                <Link 
+                  href={activeSlide.btn2Href} 
+                  className="px-6 py-3 border border-white/30 hover:bg-white/10 text-white font-bold rounded-lg text-sm uppercase tracking-wide transition-all hover:scale-105 backdrop-blur-sm"
+                >
+                  {activeSlide.btn2Text}
+                </Link>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {/* Manual Slider Navigation Controls - Vertically centered on edges */}

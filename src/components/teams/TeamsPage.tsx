@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, MapPin, Shield, ChevronDown, ChevronUp, User, SlidersHorizontal, Sparkles, Trophy, ArrowRight } from 'lucide-react';
+import { Search, MapPin, ChevronDown, ChevronUp, User, SlidersHorizontal, Sparkles, ArrowRight } from 'lucide-react';
 
 interface TeamStats {
   played: number;
@@ -340,7 +340,7 @@ export default function TeamsPage() {
                             {team.name}
                           </h2>
                           <p className="text-[10px] italic font-semibold text-slate-400 mt-0.5 truncate">
-                            "{team.motto}"
+                            &quot;{team.motto}&quot;
                           </p>
                           
                           <div className="flex items-center gap-4 mt-2 text-[11px] font-bold text-slate-500">

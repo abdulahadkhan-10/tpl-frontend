@@ -23,4 +23,12 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   font-style: italic;
+  overflow-x: hidden;
 }
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+
