@@ -127,7 +127,7 @@ export default function PlayerSpotlight() {
   };
 
   return (
-    <section className="py-20 bg-white px-6 md:px-12 text-slate-900 overflow-hidden relative">
+    <section className="py-20 bg-white px-4 md:px-12 text-slate-900 overflow-hidden relative">
       <div className="max-w-[1100px] mx-auto relative">
         
         {/* Section Header */}
@@ -190,7 +190,7 @@ export default function PlayerSpotlight() {
               </div>
 
               {/* Top Left FUT Badges */}
-              <div className="absolute top-5 left-4 flex flex-col items-center z-20 drop-shadow-md">
+              <div className="absolute top-5 left-5 flex flex-col items-center z-20 drop-shadow-md">
                 <span className="text-3xl font-black text-white leading-none tracking-tighter">{player.ovr}</span>
                 <span className="text-sm font-bold text-white/90 leading-none mt-1">{player.pos}</span>
                 <div className="w-8 h-[2px] bg-white/30 my-2" />
@@ -199,12 +199,12 @@ export default function PlayerSpotlight() {
               </div>
 
               {/* Player Image with Drop Shadow & Gradient Mask */}
-              <div className="absolute bottom-[75px] left-1/2 -translate-x-1/2 w-[240px] h-[280px] z-10 flex items-end justify-center">
+              <div className="absolute bottom-[60px] md:bottom-[75px] left-1/2 -translate-x-1/2 w-[220px] h-[260px] md:w-[240px] md:h-[280px] z-10 flex items-end justify-center">
                 <Image
                   src={player.photo}
                   alt={`${player.firstName} ${player.lastName}`}
                   fill
-                  sizes="260px"
+                  sizes="(max-width: 768px) 220px, 260px"
                   className="object-contain object-bottom drop-shadow-[0_15px_15px_rgba(0,0,0,0.6)] transform group-hover:scale-[1.08] transition-transform duration-500 origin-bottom"
                 />
               </div>

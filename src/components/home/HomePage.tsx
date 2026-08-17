@@ -111,7 +111,7 @@ export default function HomePage() {
         
         <div className="absolute inset-0 bg-gradient-to-r from-[#031b44]/90 via-[#06204c]/60 to-[#0b2b5c]/20 mix-blend-multiply" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16 w-full py-20 flex flex-col items-start text-left space-y-6">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-12 lg:px-16 w-full py-20 flex flex-col items-start text-left space-y-6">
           <AnimatePresence mode="wait">
             <motion.div
               key={`text-${currentSlide}`}
@@ -139,7 +139,7 @@ export default function HomePage() {
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-wrap gap-4 pt-2">
+              <div className="flex flex-col sm:flex-row w-full sm:w-auto flex-wrap gap-4 pt-2">
                 <Link 
                   href={activeSlide.btn1Href}
                   className="group flex items-center gap-4 pl-6 pr-1.5 py-1.5 bg-amber-400 text-slate-950 font-black rounded-full text-sm uppercase tracking-wide transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:shadow-[0_8px_30px_rgba(251,191,36,0.4)] active:scale-[0.98]"
@@ -151,7 +151,7 @@ export default function HomePage() {
                 </Link>
                 <Link 
                   href={activeSlide.btn2Href} 
-                  className="px-8 py-3.5 border border-white/20 hover:border-white/50 text-white font-bold rounded-full text-sm uppercase tracking-wide transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] backdrop-blur-sm hover:bg-white/5"
+                  className="px-8 py-3.5 border border-white/20 hover:border-white/50 text-white font-bold rounded-full text-sm uppercase tracking-wide transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] backdrop-blur-sm hover:bg-white/5 flex items-center justify-center text-center"
                 >
                   {activeSlide.btn2Text}
                 </Link>
@@ -180,7 +180,7 @@ export default function HomePage() {
       <FixturesPreview />
 
       {/* 3. League Standings Section */}
-      <section className="py-32 px-6 md:px-12 max-w-7xl mx-auto w-full overflow-hidden">
+      <section className="py-32 px-4 md:px-12 max-w-7xl mx-auto w-full overflow-hidden">
         <motion.div 
           initial={{ opacity: 0, y: 60, filter: "blur(10px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -208,11 +208,11 @@ export default function HomePage() {
           </div>
 
           {/* Right Column: Mini Standings Table */}
-          <div className="md:col-span-7">
+          <div className="md:col-span-7 min-w-0 w-full overflow-hidden">
             {/* Double-Bezel Outer Shell */}
             <div className="bg-slate-100/50 p-2 rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden backdrop-blur-sm">
               {/* Inner Core */}
-              <div className="bg-white rounded-[1.5rem] shadow-[inset_0_1px_1px_rgba(255,255,255,0.8)] border border-slate-100 overflow-x-auto">
+              <div className="bg-white rounded-[1.5rem] shadow-[inset_0_1px_1px_rgba(255,255,255,0.8)] border border-slate-100 overflow-x-auto pb-2">
                 <table className="w-full min-w-[480px] text-left border-collapse text-xs md:text-sm">
                 <thead>
                   <tr className="border-b border-slate-100 text-slate-400 font-bold bg-slate-50/50">

@@ -24,7 +24,7 @@ export default function TeamOfTheWeek() {
     players.find((p) => p.playerName === activePlayerName) || topPerformer;
 
   return (
-    <section className="py-20 bg-slate-50/50 px-6 md:px-12 text-slate-900 overflow-hidden relative">
+    <section className="py-20 bg-slate-50/50 px-4 md:px-12 text-slate-900 overflow-hidden relative">
       <div className="max-w-[1100px] mx-auto space-y-6">
 
         {/* Header */}
