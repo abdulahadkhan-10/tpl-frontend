@@ -52,6 +52,10 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  if (pathname.startsWith('/login') || pathname.startsWith('/register')) {
+    return null;
+  }
+
   return (
     <nav 
       className={`w-full py-4 md:py-5 px-6 md:px-12 flex items-center justify-between z-50 sticky top-0 transition-all duration-300 ease-in-out ${
