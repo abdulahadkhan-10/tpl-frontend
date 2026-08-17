@@ -58,7 +58,7 @@ export default function Navbar() {
 
   return (
     <nav 
-      className={`w-full py-4 md:py-5 px-6 md:px-12 flex items-center justify-between z-50 sticky top-0 transition-all duration-300 ease-in-out ${
+      className={`w-full py-4 md:py-5 px-4 md:px-12 flex items-center justify-between z-50 sticky top-0 transition-all duration-300 ease-in-out ${
         scrolled 
           ? "bg-slate-950/95 backdrop-blur-md border-b border-slate-800 shadow-lg" 
           : "bg-slate-950 border-b border-transparent shadow-sm"
@@ -67,13 +67,14 @@ export default function Navbar() {
       {/* Logo Area - Aligned Left */}
       <div className="flex-none flex items-center justify-start">
         <Link href="/" className="relative z-10 flex items-center">
-          <Image
-            src="/images/TPL_logo_White.png"
-            alt="TPL Logo"
-            width={152}
-            height={76}
-            className="object-contain"
-          />
+          <div className="relative w-[120px] md:w-[152px] h-[60px] md:h-[76px]">
+            <Image
+              src="/images/TPL_logo_White.png"
+              alt="TPL Logo"
+              fill
+              className="object-contain"
+            />
+          </div>
         </Link>
       </div>
 
