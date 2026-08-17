@@ -24,23 +24,23 @@ export default function TeamOfTheWeek() {
     players.find((p) => p.playerName === activePlayerName) || topPerformer;
 
   return (
-    <section className="py-20 bg-slate-50/50 px-4 md:px-12 text-slate-900 overflow-hidden relative">
+    <section className="py-20 bg-slate-950 px-4 md:px-12 text-white overflow-hidden relative border-y border-slate-900">
       <div className="max-w-[1100px] mx-auto space-y-6">
 
         {/* Header */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+        <div className="bg-slate-900 rounded-3xl p-6 border border-slate-800 shadow-sm flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
           <div>
-            <h2 className="text-2xl md:text-3xl font-black italic uppercase tracking-tight text-slate-900 leading-none">
+            <h2 className="text-2xl md:text-3xl font-black italic uppercase tracking-tight text-white leading-none">
               TEAM OF THE WEEK
             </h2>
-            <p className="text-slate-500 text-[10px] md:text-xs mt-2 uppercase font-mono tracking-wider font-semibold">
+            <p className="text-slate-400 text-[10px] md:text-xs mt-2 uppercase font-mono tracking-wider font-semibold">
               MATCHWEEK {MATCHWEEK} | THIS WEEK&apos;S BREAKOUT XI
             </p>
           </div>
 
           <Link
             href="/standings"
-            className="inline-flex items-center gap-1.5 text-xs md:text-sm font-black text-slate-900 hover:text-amber-600 transition-colors uppercase tracking-widest shrink-0"
+            className="inline-flex items-center gap-1.5 text-xs md:text-sm font-black text-white hover:text-amber-500 transition-colors uppercase tracking-widest shrink-0"
           >
             <span>View Full Standings</span>
             <span aria-hidden="true">→</span>
@@ -51,17 +51,17 @@ export default function TeamOfTheWeek() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
 
           {/* Tactical Pitch Area */}
-          <div className="lg:col-span-8 bg-white rounded-3xl border border-slate-200/80 p-4 md:p-6 relative overflow-hidden shadow-sm flex flex-col justify-between min-h-[480px] md:min-h-[580px]">
+          <div className="lg:col-span-8 bg-slate-900/50 rounded-3xl border border-slate-800 p-4 md:p-6 relative overflow-hidden shadow-sm flex flex-col justify-between min-h-[480px] md:min-h-[580px]">
             {/* Pitch Markings */}
-            <div className="absolute inset-4 border border-slate-200/40 pointer-events-none rounded-2xl">
-              <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-slate-200/40" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100px] h-[100px] rounded-full border border-slate-200/40" />
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[240px] h-[110px] border-b border-x border-slate-200/40" />
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[240px] h-[110px] border-t border-x border-slate-200/40" />
+            <div className="absolute inset-4 border border-slate-700/50 pointer-events-none rounded-2xl">
+              <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-slate-700/50" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100px] h-[100px] rounded-full border border-slate-700/50" />
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[240px] h-[110px] border-b border-x border-slate-700/50" />
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[240px] h-[110px] border-t border-x border-slate-700/50" />
             </div>
 
             {/* Pitch Grid Layer */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.01)_1px,_transparent_1px),_linear-gradient(90deg,_rgba(15,23,42,0.01)_1px,_transparent_1px)] bg-[size:30px_30px] pointer-events-none" />
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,_transparent_1px),_linear-gradient(90deg,_rgba(255,255,255,0.02)_1px,_transparent_1px)] bg-[size:30px_30px] pointer-events-none" />
 
             {/* Players Positions mapping */}
             <div className="relative w-full flex-grow h-full min-h-[440px] md:min-h-[500px]">
@@ -90,17 +90,17 @@ export default function TeamOfTheWeek() {
                         {player.rating}
                       </span>
 
-                      <div className={`w-12 h-12 md:w-14 md:h-14 rounded-full bg-slate-50 border-2 overflow-hidden flex items-end justify-center shadow-sm group-hover:scale-110 transition-all duration-300 ${
+                      <div className={`w-12 h-12 md:w-14 md:h-14 rounded-full bg-slate-800 border-2 overflow-hidden flex items-end justify-center shadow-sm group-hover:scale-110 transition-all duration-300 ${
                         isStar
                           ? "border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.35)]"
-                          : "border-slate-200 group-hover:border-amber-500"
+                          : "border-slate-700 group-hover:border-amber-500"
                       }`}>
                         <Image
                           src="/images/player_placeholder_nobg.png"
                           alt={player.playerName}
                           width={45}
                           height={45}
-                          className="object-contain object-bottom translate-y-1"
+                          className="object-contain object-bottom translate-y-1 drop-shadow-md"
                         />
                       </div>
                     </div>
@@ -110,7 +110,7 @@ export default function TeamOfTheWeek() {
                       <div className={`border rounded px-2.5 py-0.5 shadow-sm flex flex-col items-center min-w-[70px] ${
                         isStar
                           ? "bg-amber-400 border-amber-400 text-slate-950"
-                          : "bg-slate-900 border-slate-950 text-white"
+                          : "bg-slate-950 border-slate-700 text-slate-200"
                       }`}>
                         <span className={`text-[6.5px] font-black uppercase tracking-wider leading-none mb-0.5 ${
                           isStar ? "text-slate-950/80" : "text-slate-400"
@@ -134,9 +134,9 @@ export default function TeamOfTheWeek() {
             {/* Dynamic Spotlight Card for Currently Highlighted Player */}
             <Link
               href={`/player/${slugify(activeSpotlightPlayer.playerName)}`}
-              className="relative rounded-3xl bg-white border border-slate-200/80 overflow-hidden min-h-[170px] p-5 flex flex-col justify-between shadow-sm cursor-pointer group hover:border-amber-500/80 transition-all duration-300 block"
+              className="relative rounded-3xl bg-slate-900 border border-slate-800 overflow-hidden min-h-[170px] p-5 flex flex-col justify-between shadow-sm cursor-pointer group hover:border-amber-500/80 transition-all duration-300 block"
             >
-              <div className="absolute right-0 bottom-0 top-0 w-1/2 z-0 opacity-20">
+              <div className="absolute right-0 bottom-0 top-0 w-1/2 z-0 opacity-10">
                 <Image
                   src="/images/tpl_action.png"
                   alt=""
@@ -145,7 +145,7 @@ export default function TeamOfTheWeek() {
                   className="object-cover object-center transform scale-110 group-hover:scale-115 transition-transform duration-500"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-transparent z-10" />
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/95 to-transparent z-10" />
 
               <div className="relative z-20 flex flex-col justify-between h-full">
                 <div className="space-y-1">
@@ -153,17 +153,17 @@ export default function TeamOfTheWeek() {
                     <Sparkles size={8} />
                     <span>{activePlayerName ? "PLAYER SPOTLIGHT" : "TOP PERFORMER"}</span>
                   </div>
-                  <h4 className="text-lg md:text-xl font-black italic uppercase tracking-tight text-slate-950 mt-2 leading-tight group-hover:text-amber-600 transition-colors">
+                  <h4 className="text-lg md:text-xl font-black italic uppercase tracking-tight text-white mt-2 leading-tight group-hover:text-amber-500 transition-colors z-20 relative">
                     {activeSpotlightPlayer.playerName}
                   </h4>
-                  <p className="text-[9px] text-slate-500 font-extrabold uppercase tracking-wide">
+                  <p className="text-[9px] text-slate-400 font-extrabold uppercase tracking-wide z-20 relative">
                     {activeSpotlightPlayer.position} | {activeSpotlightPlayer.team}
                   </p>
                 </div>
 
-                <div className="mt-4 flex items-end justify-between">
+                <div className="mt-4 flex items-end justify-between z-20 relative">
                   <div>
-                    <span className="block text-[8px] text-slate-400 font-black uppercase tracking-widest leading-none">
+                    <span className="block text-[8px] text-slate-500 font-black uppercase tracking-widest leading-none">
                       PERF INDEX
                     </span>
                     <span className="text-3xl font-black text-amber-600 leading-none mt-1 inline-block">
@@ -180,12 +180,12 @@ export default function TeamOfTheWeek() {
             {/* Teaser CTA into the full tool */}
             <Link
               href="/standings"
-              className="flex-grow bg-white rounded-3xl border border-slate-200/80 p-5 flex flex-col justify-center items-center text-center gap-2 shadow-sm hover:border-amber-500/80 transition-all duration-300 group"
+              className="flex-grow bg-slate-900 rounded-3xl border border-slate-800 p-5 flex flex-col justify-center items-center text-center gap-2 shadow-sm hover:border-amber-500/80 transition-all duration-300 group"
             >
-              <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">
+              <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">
                 Want the full lineup builder?
               </span>
-              <span className="text-sm font-black uppercase tracking-wide text-slate-900 group-hover:text-amber-600 transition-colors">
+              <span className="text-sm font-black uppercase tracking-wide text-slate-200 group-hover:text-amber-500 transition-colors">
                 Explore Standings & Rankings →
               </span>
             </Link>

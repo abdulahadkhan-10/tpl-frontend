@@ -120,7 +120,7 @@ export default function OfficialPartners() {
   const loopRow2 = [...partnersRow2, ...partnersRow2, ...partnersRow2];
 
   return (
-    <section className="py-16 bg-[#0a0f14] overflow-hidden border-t border-slate-800/80 w-full space-y-8 select-none">
+    <section className="py-16 bg-[#0a0f14] overflow-hidden w-full space-y-8 select-none">
       <div className="max-w-[1400px] mx-auto px-4 text-center">
         <span className="text-[10px] font-black text-amber-500 tracking-[0.25em] uppercase block mb-8">
           Official Partners & Features

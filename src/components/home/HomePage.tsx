@@ -89,7 +89,7 @@ export default function HomePage() {
   const activeSlide = slides[currentSlide];
 
   return (
-    <main className="flex min-h-screen flex-col w-full bg-slate-50/30">
+    <main className="flex min-h-screen flex-col w-full">
       {/* 1. Hero Section: The Raw to Pro Journey Starts Here */}
       <section
         className="relative min-h-[500px] md:min-h-[600px] w-full flex items-center justify-start bg-slate-950 overflow-hidden"
@@ -180,7 +180,7 @@ export default function HomePage() {
       <FixturesPreview />
 
       {/* 3. League Standings Section */}
-      <section className="py-32 px-4 md:px-12 max-w-7xl mx-auto w-full overflow-hidden">
+      <section className="py-32 px-4 md:px-12 max-w-7xl mx-auto w-full overflow-hidden bg-white">
         <motion.div 
           initial={{ opacity: 0, y: 60, filter: "blur(10px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
