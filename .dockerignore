@@ -38,6 +38,4 @@ lerna-debug.log*
 .gitattributes
 
 # Docker files
-Dockerfile
-.dockerignore
-docker-compose*.yml
+
