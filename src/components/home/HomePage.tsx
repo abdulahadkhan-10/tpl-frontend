@@ -22,6 +22,7 @@ export default function HomePage() {
       titleLine3: "GETS DISCOVERED",
       desc: "Real fixtures, real form, real scouts watching. This is where local talent proves it belongs at the next level.",
       image: "/images/slider/tpl-slide1-matchday.png",
+      bgPosition: "center 20%",
       btn1Text: "Register Now",
       btn1Href: "/register",
       btn2Text: "View Teams",
@@ -34,6 +35,7 @@ export default function HomePage() {
       titleLine3: "STARTS HERE",
       desc: "Witness the evolution of the next generation. TPL's new season brings unprecedented talent to the forefront of modern football.",
       image: "/images/slider/tpl-slide2-journey.png",
+      bgPosition: "center 20%",
       btn1Text: "Explore Standings",
       btn1Href: "/standings",
       btn2Text: "Watch Highlights",
@@ -46,6 +48,7 @@ export default function HomePage() {
       titleLine3: "OF FOOTBALL",
       desc: "Unearthing and nurturing the finest young footballing talents from raw capabilities to professional careers.",
       image: "/images/slider/tpl-academy-banner.png",
+      bgPosition: "center 40%",
       btn1Text: "Apprenticeships",
       btn1Href: "/apprenticeships",
       btn2Text: "Scouting Portal",
@@ -58,6 +61,7 @@ export default function HomePage() {
       titleLine3: "OF COMPETITION",
       desc: "Experience high-octane elite men's football where athletic excellence meets tactical mastery on the national stage.",
       image: "/images/slider/tpl-slide4-elite.png",
+      bgPosition: "center 15%",
       btn1Text: "Fixtures",
       btn1Href: "/fixtures",
       btn2Text: "Join Community",
@@ -97,14 +101,17 @@ export default function HomePage() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.2, ease: [0.32, 0.72, 0, 1] }}
-            className="absolute inset-0 bg-cover bg-center select-none pointer-events-none"
-            style={{ backgroundImage: `url('${activeSlide.image}')` }}
+            className="absolute inset-0 bg-cover select-none pointer-events-none"
+            style={{ 
+              backgroundImage: `url('${activeSlide.image}')`,
+              backgroundPosition: activeSlide.bgPosition 
+            }}
           />
         </AnimatePresence>
         
         <div className="absolute inset-0 bg-gradient-to-r from-[#031b44]/90 via-[#06204c]/60 to-[#0b2b5c]/20 mix-blend-multiply" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-12 md:px-20 w-full py-20 flex flex-col items-start text-left space-y-6">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16 w-full py-20 flex flex-col items-start text-left space-y-6">
           <AnimatePresence mode="wait">
             <motion.div
               key={`text-${currentSlide}`}
@@ -120,7 +127,7 @@ export default function HomePage() {
               </span>
 
               {/* Heading */}
-              <h1 className="text-4xl md:text-7xl font-black italic uppercase leading-none tracking-tight text-white max-w-3xl min-h-[140px] md:min-h-[220px]">
+              <h1 className="text-4xl md:text-7xl font-black italic uppercase leading-none tracking-tight text-white max-w-2xl min-h-[140px] md:min-h-[220px]">
                 {activeSlide.titleLine1} <br />
                 <span className="text-amber-400">{activeSlide.highlight}</span> <br />
                 {activeSlide.titleLine3}
@@ -153,19 +160,7 @@ export default function HomePage() {
           </AnimatePresence>
         </div>
 
-        {/* Manual Slider Navigation Controls - Vertically centered on edges */}
-        <button 
-          onClick={prevSlide}
-          className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full border border-white/20 hover:border-white/50 bg-[#0d0f14]/40 hover:bg-amber-400 hover:text-slate-950 text-white transition-all cursor-pointer shadow-lg"
-        >
-          ←
-        </button>
-        <button 
-          onClick={nextSlide}
-          className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full border border-white/20 hover:border-white/50 bg-[#0d0f14]/40 hover:bg-amber-400 hover:text-slate-950 text-white transition-all cursor-pointer shadow-lg"
-        >
-          →
-        </button>
+
 
         {/* Slide Indicator Dots */}
         <div className="absolute left-12 md:left-20 bottom-12 z-20 flex gap-2">

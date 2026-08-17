@@ -72,7 +72,7 @@ export default function HeroSlider() {
                 src={slide.src}
                 alt={slide.title}
                 fill
-                className={`object-cover object-center transition-transform duration-[6000ms] ease-out ${
+                className={`object-cover object-top transition-transform duration-[6000ms] ease-out ${
                   isActive ? "scale-105" : "scale-100"
                 }`}
                 priority={index === 0}
@@ -84,8 +84,8 @@ export default function HeroSlider() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#06090e] via-transparent to-black/35"></div>
 
             {/* Asymmetric Content Positioning (Design Dial high variance) */}
-            <div className="absolute inset-0 flex items-center z-20 px-6 md:px-16 lg:px-24">
-              <div className="max-w-2xl text-left flex flex-col items-start">
+            <div className="absolute inset-0 flex items-center z-20 px-8 md:px-16 lg:px-24">
+              <div className="max-w-xl text-left flex flex-col items-start">
                 {/* Staggered text animations using utility transition delays */}
                 <span className={`inline-block bg-[#d18116] text-white text-xs font-black px-3.5 py-1.5 rounded-full mb-4 tracking-widest uppercase shadow-md transition-all duration-700 transform ${
                   isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
