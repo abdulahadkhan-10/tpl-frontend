@@ -1,5 +1,5 @@
-import RegisterPlayerPage from "@/components/register/RegisterPlayerPage";
+import { PlayerWizard } from "@/components/register/PlayerFlow/PlayerWizard";
 
 export default function Page() {
-  return <RegisterPlayerPage />;
+  return <PlayerWizard />;
 }

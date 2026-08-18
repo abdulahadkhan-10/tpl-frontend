@@ -109,7 +109,7 @@ export default function RegisterTeamPage() {
             <p className="text-sm text-slate-500">Your team <strong className="text-slate-800">{teamName}</strong> has been secured for TPL. Use the invite link below to onboard your roster players.</p>
             
             <div className="w-full bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 select-all overflow-x-auto whitespace-nowrap">
-              https://talentproleague.com/register/player?team={encodeURIComponent(teamName)}
+              https://talentproleague.football/register/player?team={encodeURIComponent(teamName)}
             </div>
 
             <Link

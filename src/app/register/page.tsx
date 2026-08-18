@@ -1,5 +1,5 @@
-import RegisterPage from "@/components/register/RegisterPage";
+import { SelectionPage } from "@/components/register/SelectionPage";
 
 export default function Page() {
-  return <RegisterPage />;
+  return <SelectionPage />;
 }

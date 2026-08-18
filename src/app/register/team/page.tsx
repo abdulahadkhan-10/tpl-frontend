@@ -1,5 +1,5 @@
-import RegisterTeamPage from "@/components/register/RegisterTeamPage";
+import { TeamWizard } from "@/components/register/TeamFlow/TeamWizard";
 
 export default function Page() {
-  return <RegisterTeamPage />;
+  return <TeamWizard />;
 }
