@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useLoginMutation } from '@/store/slices/loginApi';
-import { Mail, Lock, ArrowLeft, LogIn, ShieldAlert, CheckCircle2, User } from 'lucide-react';
-import {RiTeamLine} from 'react-icons/ri';
+import { Mail, Lock, ArrowLeft, LogIn, ShieldAlert, CheckCircle2, User, Eye, EyeOff } from 'lucide-react';
+import { RiTeamLine } from 'react-icons/ri';
 
 const tplLogo = '/images/TPL_logo_Dark.png';
 
@@ -14,6 +14,7 @@ export default function LoginPage() {
   const [loginType, setLoginType] = useState<'team' | 'player'>('team');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [success, setSuccess] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
   const router = useRouter();
@@ -40,14 +41,14 @@ export default function LoginPage() {
   return (
     <div className="min-h-[calc(100vh-5rem)] flex items-center justify-center bg-slate-50 bg-[url('/images/stadium-bg.png')] bg-cover bg-center bg-fixed bg-no-repeat font-outfit p-4 pt-16">
       <div className="max-w-md w-full bg-white/90 backdrop-blur-lg rounded-3xl shadow-2xl border border-slate-200/50 p-8 space-y-6 relative overflow-hidden transition-all duration-300">
-        
+
         {/* Dynamic decorative gradients */}
         <div className={`absolute top-0 right-0 w-24 h-24 rounded-full blur-xl pointer-events-none transition-all duration-500 ${isTeam ? 'bg-amber-500/10' : 'bg-indigo-500/10'}`} />
         <div className={`absolute bottom-0 left-0 w-24 h-24 rounded-full blur-xl pointer-events-none transition-all duration-500 ${isTeam ? 'bg-amber-500/5' : 'bg-indigo-500/5'}`} />
 
         {/* Top actions */}
         <div className="flex justify-start">
-          <button 
+          <button
             type="button"
             onClick={() => router.push('/')}
             className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
@@ -72,11 +73,10 @@ export default function LoginPage() {
               setLoginType('team');
               setLocalError(null);
             }}
-            className={`flex-1 flex items-center justify-center gap-2 py-3.5 text-xs font-bold rounded-xl transition-all active:scale-95 cursor-pointer ${
-              isTeam
+            className={`flex-1 flex items-center justify-center gap-2 py-3.5 text-xs font-bold rounded-xl transition-all active:scale-95 cursor-pointer ${isTeam
                 ? 'bg-amber-500 text-white shadow-md'
                 : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50/50'
-            }`}
+              }`}
           >
             <RiTeamLine className="w-4 h-4" />
             <span>Team</span>
@@ -88,11 +88,10 @@ export default function LoginPage() {
               setLoginType('player');
               setLocalError(null);
             }}
-            className={`flex-1 flex items-center justify-center gap-2 py-3.5 text-xs font-bold rounded-xl transition-all active:scale-95 cursor-pointer ${
-              !isTeam
+            className={`flex-1 flex items-center justify-center gap-2 py-3.5 text-xs font-bold rounded-xl transition-all active:scale-95 cursor-pointer ${!isTeam
                 ? 'bg-indigo-600 text-white shadow-md'
                 : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50/50'
-            }`}
+              }`}
           >
             <User className="w-4 h-4" />
             <span>Player Login</span>
@@ -129,9 +128,8 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className={`pl-10 h-11 bg-white/70 border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-offset-0 text-sm transition-all duration-350 ${
-                  isTeam ? 'focus:border-amber-500 focus:ring-amber-500' : 'focus:border-indigo-500 focus:ring-indigo-500'
-                }`}
+                className={`pl-10 h-11 bg-white/70 border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-offset-0 text-sm transition-all duration-350 ${isTeam ? 'focus:border-amber-500 focus:ring-amber-500' : 'focus:border-indigo-500 focus:ring-indigo-500'
+                  }`}
               />
             </div>
           </div>
@@ -147,26 +145,32 @@ export default function LoginPage() {
               </span>
               <Input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className={`pl-10 h-11 bg-white/70 border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-offset-0 text-sm transition-all duration-350 ${
-                  isTeam ? 'focus:border-amber-500 focus:ring-amber-500' : 'focus:border-indigo-500 focus:ring-indigo-500'
-                }`}
+                className={`pl-10 pr-10 h-11 bg-white/70 border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-offset-0 text-sm transition-all duration-350 ${isTeam ? 'focus:border-amber-500 focus:ring-amber-500' : 'focus:border-indigo-500 focus:ring-indigo-500'
+                  }`}
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 hover:text-slate-600 transition-colors"
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff className="w-[18px] h-[18px]" /> : <Eye className="w-[18px] h-[18px]" />}
+              </button>
             </div>
           </div>
 
           <Button
             type="submit"
             disabled={isLoading || success}
-            className={`w-full h-11 text-white font-bold rounded-xl transition-all shadow-md active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer mt-6 duration-350 ${
-              isTeam 
-                ? 'bg-amber-500 hover:bg-amber-600 shadow-amber-500/25' 
+            className={`w-full h-11 text-white font-bold rounded-xl transition-all shadow-md active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer mt-6 duration-350 ${isTeam
+                ? 'bg-amber-500 hover:bg-amber-600 shadow-amber-500/25'
                 : 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/25'
-            }`}
+              }`}
           >
             {isLoading ? (
               <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -183,12 +187,11 @@ export default function LoginPage() {
         <div className="text-center pt-2">
           <p className="text-xs text-slate-500 font-medium">
             Don't have an account yet?{' '}
-            <button 
+            <button
               type="button"
-              onClick={() => router.push('/register')} 
-              className={`font-bold hover:underline cursor-pointer duration-350 ${
-                isTeam ? 'text-amber-600' : 'text-indigo-650'
-              }`}
+              onClick={() => router.push('/register')}
+              className={`font-bold hover:underline cursor-pointer duration-350 ${isTeam ? 'text-amber-600' : 'text-indigo-650'
+                }`}
             >
               Register here
             </button>
