@@ -12,7 +12,6 @@ const personalInfoSchema = z.object({
   dateOfBirth: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: 'Valid date of birth is required',
   }),
-  gender: z.string().min(1, 'Gender is required'),
   nationality: z.string().min(2, 'Nationality is required'),
   homeAddress: z.string().min(5, 'Home address is required'),
   mobileNumber: z.string().min(5, 'Mobile number is required'),
@@ -40,7 +39,6 @@ export const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({ initialData,
     defaultValues: {
       fullName: initialData?.fullName || '',
       dateOfBirth: initialData?.dateOfBirth || '',
-      gender: initialData?.gender || '',
       nationality: initialData?.nationality || '',
       homeAddress: initialData?.homeAddress || '',
       mobileNumber: initialData?.mobileNumber || '',
@@ -104,33 +102,6 @@ export const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({ initialData,
           </div>
           {errors.dateOfBirth && (
             <p className="text-red-500 text-xs mt-1">{errors.dateOfBirth.message}</p>
-          )}
-        </div>
-
-        {/* Gender */}
-        <div className="space-y-2">
-          <Label htmlFor="gender">Gender *</Label>
-          <div className="relative">
-            <select 
-              id="gender" 
-              {...register('gender')} 
-              className={`w-full h-10 pl-3 pr-10 bg-white border border-slate-200 rounded-lg text-sm outline-none focus:border-indigo-500 font-outfit appearance-none ${errors.gender ? 'border-red-500' : ''}`}
-            >
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-            <div className="absolute right-3 top-3 pointer-events-none flex items-center">
-              {dirtyFields.gender && !errors.gender ? (
-                <Check className="w-4 h-4 text-emerald-500" />
-              ) : (
-                <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
-              )}
-            </div>
-          </div>
-          {errors.gender && (
-            <p className="text-red-500 text-xs mt-1">{errors.gender.message}</p>
           )}
         </div>
 

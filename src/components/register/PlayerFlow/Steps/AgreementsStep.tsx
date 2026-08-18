@@ -119,7 +119,6 @@ export const AgreementsStep: React.FC<AgreementsStepProps> = ({ initialData, onN
             <div className="p-4 border-t border-slate-100 bg-white grid md:grid-cols-2 gap-x-6 gap-y-3 text-xs text-slate-600 font-outfit">
               <p><span className="font-semibold text-slate-800 block">Full Name</span> {initialData?.fullName}</p>
               <p><span className="font-semibold text-slate-800 block">Date of Birth</span> {initialData?.dateOfBirth}</p>
-              <p><span className="font-semibold text-slate-800 block">Gender</span> {initialData?.gender}</p>
               <p><span className="font-semibold text-slate-800 block">Nationality</span> {initialData?.nationality}</p>
               <p><span className="font-semibold text-slate-800 block">Mobile Number</span> {initialData?.mobileNumber}</p>
               <p><span className="font-semibold text-slate-800 block">Email Address</span> {initialData?.email}</p>
