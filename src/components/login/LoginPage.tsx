@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useLoginMutation } from '@/store/slices/loginApi';
-import { Mail, Lock, ArrowLeft, LogIn, ShieldAlert, CheckCircle2, User } from 'lucide-react';
+import { Mail, Lock, ArrowLeft, LogIn, ShieldAlert, CheckCircle2, User, Eye, EyeOff } from 'lucide-react';
 import {RiTeamLine} from 'react-icons/ri';
 
 const tplLogo = '/images/TPL_logo_Dark.png';
@@ -14,6 +14,7 @@ export default function LoginPage() {
   const [loginType, setLoginType] = useState<'team' | 'player'>('team');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [success, setSuccess] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
   const router = useRouter();
@@ -147,15 +148,23 @@ export default function LoginPage() {
               </span>
               <Input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className={`pl-10 h-11 bg-white/70 border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-offset-0 text-sm transition-all duration-350 ${
+                className={`pl-10 pr-10 h-11 bg-white/70 border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-offset-0 text-sm transition-all duration-350 ${
                   isTeam ? 'focus:border-amber-500 focus:ring-amber-500' : 'focus:border-indigo-500 focus:ring-indigo-500'
                 }`}
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 hover:text-slate-600 transition-colors"
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff className="w-[18px] h-[18px]" /> : <Eye className="w-[18px] h-[18px]" />}
+              </button>
             </div>
           </div>
 
