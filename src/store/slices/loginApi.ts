@@ -68,9 +68,17 @@ export const loginApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+    addTeamManager: builder.mutation<any, { fullName: string; email: string; contactNumber: string; role: string }>({
+      query: (payload) => ({
+        url: '/auth/me/managers',
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['User'],
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterTeamMutation, useGetMeQuery, useUpdateMeMutation, useLogoutMutation } = loginApi;
+export const { useLoginMutation, useRegisterTeamMutation, useGetMeQuery, useUpdateMeMutation, useLogoutMutation, useAddTeamManagerMutation } = loginApi;
 export const authApi = loginApi; // Alias for cleaner references
 export type AuthApi = typeof loginApi;
