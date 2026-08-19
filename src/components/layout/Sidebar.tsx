@@ -38,6 +38,7 @@ export default function Sidebar() {
   // Team Role Menu Items (Direct unified list - No headings)
   const teamMenuItems: MenuItem[] = [
     { name: 'Dashboard', path: '/dashboard', iconName: 'dashboard', badge: 'LIVE' },
+    { name: 'Tactics Builder', path: '/dashboard/tactics', iconName: 'team-details' },
     { name: 'Players', path: '/dashboard/players', iconName: 'players', badge: 15 },
     { name: 'Managers', path: '/dashboard/managers', iconName: 'managers', badge: 2 },
     { name: 'Match Fixtures', path: '/dashboard/match-fixtures', iconName: 'fixtures', badge: 5 },

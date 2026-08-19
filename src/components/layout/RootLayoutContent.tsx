@@ -12,10 +12,11 @@ export default function RootLayoutContent({ children }: { children: React.ReactN
   return (
     <>
       {!isDashboard && <Navbar />}
-      <main className="flex-1">
+      <main className={isDashboard ? "flex-1 flex flex-col overflow-hidden h-screen" : "flex-1"}>
         {children}
       </main>
-      <Footer />
+      {!isDashboard && <Footer />}
     </>
   );
 }
+
