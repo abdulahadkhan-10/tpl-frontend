@@ -21,12 +21,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               TPL PORTAL DASHBOARD
             </h1>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-semibold text-slate-500 bg-[#F8F9FA] px-3 py-1 rounded-full border border-[#E5E7EB]">
-              Season 2026 Live
-            </span>
-            <div className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-pulse" title="System Online" />
-          </div>
+         
         </header>
 
         {/* Dynamic Page Content Slot with smooth scrolling */}

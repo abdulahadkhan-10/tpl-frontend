@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "@/store/StoreProvider";
 import RootLayoutContent from "@/components/layout/RootLayoutContent";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-[var(--background)] text-[var(--foreground)]">
+        <Toaster position="bottom-right" toastOptions={{ duration: 4000 }} />
         <StoreProvider>
           <RootLayoutContent>
             {children}
