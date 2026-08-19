@@ -17,9 +17,20 @@ export interface LoginCredentials {
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL || '/api';
 
+import { RootState } from '../index'; // Assuming index.ts is one level up
+
 export const loginApi = createApi({
   reducerPath: 'loginApi',
-  baseQuery: fetchBaseQuery({ baseUrl, credentials: 'include' }),
+  baseQuery: fetchBaseQuery({ 
+    baseUrl,
+    prepareHeaders: (headers, { getState }) => {
+      const token = (getState() as RootState).auth.token;
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
   tagTypes: ['User'],
   endpoints: (builder) => ({
     login: builder.mutation<any, LoginCredentials>({
@@ -42,6 +53,14 @@ export const loginApi = createApi({
       query: () => '/auth/me',
       providesTags: ['User'],
     }),
+    updateMe: builder.mutation<any, any>({
+      query: (payload) => ({
+        url: '/auth/me',
+        method: 'PUT',
+        body: payload,
+      }),
+      invalidatesTags: ['User'],
+    }),
     logout: builder.mutation<any, void>({
       query: () => ({
         url: '/auth/logout',
@@ -49,9 +68,17 @@ export const loginApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+    addTeamManager: builder.mutation<any, { fullName: string; email: string; contactNumber: string; role: string }>({
+      query: (payload) => ({
+        url: '/auth/me/managers',
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['User'],
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterTeamMutation, useGetMeQuery, useLogoutMutation } = loginApi;
+export const { useLoginMutation, useRegisterTeamMutation, useGetMeQuery, useUpdateMeMutation, useLogoutMutation, useAddTeamManagerMutation } = loginApi;
 export const authApi = loginApi; // Alias for cleaner references
 export type AuthApi = typeof loginApi;
