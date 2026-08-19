@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Shield, Trophy, Users, Calendar, Activity, ChevronRight, Sparkles, AlertTriangle, CheckCircle, XCircle, Info, PieChart as PieChartIcon, LayoutTemplate } from 'lucide-react';
 import Link from 'next/link';
+import PlayerDashboardWidgets from '@/components/player/PlayerDashboardWidgets';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 const goalTrendData = [
@@ -223,7 +224,11 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Overview Stat Cards Grid */}
+      {!isTeam ? (
+        <PlayerDashboardWidgets />
+      ) : (
+        <>
+          {/* Overview Stat Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {isTeam ? (
           <>
@@ -462,12 +467,12 @@ export default function DashboardPage() {
       )}
 
       {/* Quick Action Placeholder Area */}
-      <div className="bg-white rounded-2xl p-6 border border-[#E5E7EB] shadow-xs space-y-4">
-        <h2 className="text-base font-extrabold font-montserrat text-[#1A1C1C] uppercase tracking-wider">
-          Quick Actions & Portal Shortcuts
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {isTeam ? (
+      {isTeam && (
+        <div className="bg-white rounded-2xl p-6 border border-[#E5E7EB] shadow-xs space-y-4">
+          <h2 className="text-base font-extrabold font-montserrat text-[#1A1C1C] uppercase tracking-wider">
+            Quick Actions & Portal Shortcuts
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <>
               <Link href="/dashboard/players" className="p-4 bg-[#F8F9FA] hover:bg-[#FFF9E6] border border-[#E5E7EB] hover:border-[#FFB800] rounded-xl transition-all cursor-pointer group">
                 <h3 className="font-bold text-sm font-montserrat text-[#1A1C1C] group-hover:text-[#7C5800]">Players Directory</h3>
@@ -482,24 +487,11 @@ export default function DashboardPage() {
                 <p className="text-xs text-slate-500 mt-1">Check scheduled fixtures, stadium venues, and kickoff times.</p>
               </Link>
             </>
-          ) : (
-            <>
-              <Link href="/dashboard/team-details" className="p-4 bg-[#F8F9FA] hover:bg-[#FFF9E6] border border-[#E5E7EB] hover:border-[#FFB800] rounded-xl transition-all cursor-pointer group">
-                <h3 className="font-bold text-sm font-montserrat text-[#1A1C1C] group-hover:text-[#7C5800]">Team Details</h3>
-                <p className="text-xs text-slate-500 mt-1">View squad composition, kit details, and club information.</p>
-              </Link>
-              <Link href="/dashboard/stats" className="p-4 bg-[#F8F9FA] hover:bg-[#FFF9E6] border border-[#E5E7EB] hover:border-[#FFB800] rounded-xl transition-all cursor-pointer group">
-                <h3 className="font-bold text-sm font-montserrat text-[#1A1C1C] group-hover:text-[#7C5800]">Personal Stats</h3>
-                <p className="text-xs text-slate-500 mt-1">Analyze heatmap, stamina index, passes, and goal contributions.</p>
-              </Link>
-              <Link href="/dashboard/tickets" className="p-4 bg-[#F8F9FA] hover:bg-[#FFF9E6] border border-[#E5E7EB] hover:border-[#FFB800] rounded-xl transition-all cursor-pointer group">
-                <h3 className="font-bold text-sm font-montserrat text-[#1A1C1C] group-hover:text-[#7C5800]">Ticket & Support</h3>
-                <p className="text-xs text-slate-500 mt-1">Raise support requests, queries, or medical clearances.</p>
-              </Link>
-            </>
-          )}
+          </div>
         </div>
-      </div>
+      )}
+        </>
+      )}
     </div>
   );
 }

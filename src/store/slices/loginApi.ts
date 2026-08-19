@@ -42,9 +42,16 @@ export const loginApi = createApi({
       query: () => '/auth/me',
       providesTags: ['User'],
     }),
+    logout: builder.mutation<any, void>({
+      query: () => ({
+        url: '/auth/logout',
+        method: 'POST',
+      }),
+      invalidatesTags: ['User'],
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterTeamMutation, useGetMeQuery } = loginApi;
+export const { useLoginMutation, useRegisterTeamMutation, useGetMeQuery, useLogoutMutation } = loginApi;
 export const authApi = loginApi; // Alias for cleaner references
 export type AuthApi = typeof loginApi;

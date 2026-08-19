@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '@/store/slices/authSlice';
+import { useLogoutMutation, loginApi } from '@/store/slices/loginApi';
 import AnimatedIcon from '@/components/ui/AnimatedIcon';
 import { LogOut, ChevronLeft, ChevronRight, Menu, X, PanelLeftClose, PanelLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -30,8 +31,16 @@ export default function Sidebar() {
   // Role check: Redux -> localStorage -> default 'team'
   const activeRole: 'team' | 'player' = auth?.role === 'player' ? 'player' : 'team';
 
-  const handleLogout = () => {
+  const [logoutApi] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    try {
+      await logoutApi().unwrap();
+    } catch (e) {
+      // Ignore network errors on logout
+    }
     dispatch(logout());
+    dispatch(loginApi.util.resetApiState());
     router.push('/login');
   };
 

@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useLoginMutation } from '@/store/slices/loginApi';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '@/store/slices/authSlice';
 import { Mail, Lock, ArrowLeft, LogIn, ShieldAlert, CheckCircle2, User, Eye, EyeOff } from 'lucide-react';
 import { RiTeamLine } from 'react-icons/ri';
 
@@ -18,6 +20,7 @@ export default function LoginPage() {
   const [success, setSuccess] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [login, { isLoading }] = useLoginMutation();
 
@@ -26,7 +29,12 @@ export default function LoginPage() {
     setLocalError(null);
 
     try {
-      await login({ email, password, role: loginType }).unwrap();
+      const result = await login({ email, password, role: loginType }).unwrap();
+      dispatch(setCredentials({
+        user: result.user,
+        role: result.role || (result.user?.roleType?.toLowerCase()) || loginType,
+        token: result.token
+      }));
       setSuccess(true);
       setTimeout(() => {
         router.push('/dashboard');
