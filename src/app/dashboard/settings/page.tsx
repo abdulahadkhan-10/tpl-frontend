@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Settings, Lock, User, Bell, Shield, Save } from 'lucide-react';
+import { Settings, Lock, User, Bell, Shield, Save, Eye, EyeOff } from 'lucide-react';
 import AnimatedIcon from '@/components/ui/AnimatedIcon';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
@@ -19,26 +19,38 @@ export default function SettingsPage() {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
+    currentPassword: '',
+    newPassword: '',
   });
+
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<{type: 'success'|'error', text: string} | null>(null);
 
   useEffect(() => {
     if (activeUser) {
-      setFormData({
+      setFormData(prev => ({
+        ...prev,
         fullName: activeUser.fullName || activeUser.name || '',
         email: activeUser.email || '',
-      });
+      }));
     }
   }, [activeUser]);
 
   const handleSave = async () => {
+    setStatusMessage(null);
     try {
       const result = await updateMe(formData).unwrap();
       const updatedUser = result.user || result.team;
       dispatch(setCredentials({ user: updatedUser, role: role as any, token: (reduxUser as any)?.token }));
-      // Optionally show a success toast here
-    } catch (error) {
+      setFormData(prev => ({ ...prev, currentPassword: '', newPassword: '' }));
+      setStatusMessage({ type: 'success', text: 'Settings saved successfully!' });
+    } catch (error: any) {
       console.error('Failed to update profile', error);
-      // Optionally show an error toast here
+      setStatusMessage({ 
+        type: 'error', 
+        text: error?.data?.error || 'Failed to save settings. Please check your current password.' 
+      });
     }
   };
 
@@ -58,6 +70,15 @@ export default function SettingsPage() {
           </p>
         </div>
       </div>
+
+      {statusMessage && (
+        <div className={`p-4 rounded-xl border text-sm font-bold flex items-center gap-2 ${
+          statusMessage.type === 'success' ? 'bg-green-50 border-green-200 text-green-700' : 'bg-red-50 border-red-200 text-red-700'
+        }`}>
+          {statusMessage.type === 'success' ? <Shield size={16} /> : <Lock size={16} />}
+          {statusMessage.text}
+        </div>
+      )}
 
       {/* Settings Form Container */}
       <div className="bg-white rounded-2xl border border-[#E5E7EB] p-6 md:p-8 shadow-xs space-y-6">
@@ -97,20 +118,42 @@ export default function SettingsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider font-montserrat">Current Password</label>
-              <input
-                type="password"
-                placeholder="••••••••"
-                className="w-full px-4 py-2.5 bg-[#F8F9FA] border border-[#E5E7EB] rounded-xl text-xs font-medium focus:outline-none focus:border-[#FFB800]"
-              />
+              <div className="relative">
+                <input
+                  type={showCurrentPassword ? "text" : "password"}
+                  value={formData.currentPassword}
+                  onChange={(e) => setFormData({ ...formData, currentPassword: e.target.value })}
+                  placeholder="••••••••"
+                  className="w-full px-4 py-2.5 bg-[#F8F9FA] border border-[#E5E7EB] rounded-xl text-xs font-medium focus:outline-none focus:border-[#FFB800] pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                >
+                  {showCurrentPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
             </div>
 
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider font-montserrat">New Password</label>
-              <input
-                type="password"
-                placeholder="••••••••"
-                className="w-full px-4 py-2.5 bg-[#F8F9FA] border border-[#E5E7EB] rounded-xl text-xs font-medium focus:outline-none focus:border-[#FFB800]"
-              />
+              <div className="relative">
+                <input
+                  type={showNewPassword ? "text" : "password"}
+                  value={formData.newPassword}
+                  onChange={(e) => setFormData({ ...formData, newPassword: e.target.value })}
+                  placeholder="••••••••"
+                  className="w-full px-4 py-2.5 bg-[#F8F9FA] border border-[#E5E7EB] rounded-xl text-xs font-medium focus:outline-none focus:border-[#FFB800] pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                >
+                  {showNewPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
             </div>
           </div>
         </div>
