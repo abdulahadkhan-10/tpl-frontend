@@ -19,7 +19,7 @@ const baseUrl = process.env.NEXT_PUBLIC_API_URL || '/api';
 
 export const loginApi = createApi({
   reducerPath: 'loginApi',
-  baseQuery: fetchBaseQuery({ baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl, credentials: 'include' }),
   tagTypes: ['User'],
   endpoints: (builder) => ({
     login: builder.mutation<any, LoginCredentials>({
