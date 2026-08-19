@@ -2,17 +2,60 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { User, Sliders, Shield } from 'lucide-react';
-
+import { User, Sliders, Shield, Edit2, Check, X } from 'lucide-react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store';
+import { setCredentials } from '@/store/slices/authSlice';
+import { useUpdateMeMutation, useGetMeQuery } from '@/store/slices/loginApi';
+import { useState, useEffect } from 'react';
 export default function SettingsPage() {
   const springConfig = { type: 'spring', damping: 15, stiffness: 100 } as const;
+
+  const { user: reduxUser, role, isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
+  const [updateMe] = useUpdateMeMutation();
+  const { data: freshData } = useGetMeQuery(undefined, { skip: !isAuthenticated });
+
+  const user = freshData?.user || freshData?.team || reduxUser;
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: ''
+  });
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        fullName: user.fullName || user.name || '',
+        email: user.email || ''
+      });
+    }
+  }, [user]);
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      const result = await updateMe(formData).unwrap();
+      const updatedUser = result.user || result.team;
+
+      // Update local state and Redux
+      dispatch(setCredentials({ user: updatedUser, role: role as any }));
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Failed to update profile', error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-slate-50/50 pt-24 pb-12 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-7xl mx-auto space-y-8">
-        
+
         {/* Page Header */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={springConfig}
@@ -34,43 +77,99 @@ export default function SettingsPage() {
 
         {/* Settings Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          
+
           {/* Admin Profile */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={springConfig}
             className="bg-white/70 backdrop-blur-xl border border-white/50 rounded-3xl p-6 shadow-sm space-y-6"
           >
-            <div className="flex items-center gap-3 border-b border-slate-200/50 pb-4">
-              <div className="p-2.5 bg-indigo-50 text-indigo-650 rounded-xl">
-                <User size={18} />
+            <div className="flex items-center justify-between border-b border-slate-200/50 pb-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 bg-indigo-50 text-indigo-650 rounded-xl">
+                  <User size={18} />
+                </div>
+                <span className="text-sm font-bold text-slate-900 uppercase">
+                  User Profile
+                </span>
               </div>
-              <span className="text-sm font-bold text-slate-900 uppercase">
-                Administrator Profile
-              </span>
+
+              {isAuthenticated && (
+                isEditing ? (
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={handleSave}
+                      disabled={isSaving}
+                      className="p-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors disabled:opacity-50"
+                      title="Save Changes"
+                    >
+                      <Check size={16} />
+                    </button>
+                    <button
+                      onClick={() => {
+                        setIsEditing(false);
+                        setFormData({
+                          fullName: user?.fullName || user?.name || '',
+                          email: user?.email || ''
+                        });
+                      }}
+                      className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
+                      title="Cancel"
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setIsEditing(true)}
+                    className="p-2 bg-slate-50 text-slate-600 rounded-lg hover:bg-slate-100 transition-colors"
+                    title="Edit Profile"
+                  >
+                    <Edit2 size={16} />
+                  </button>
+                )
+              )}
             </div>
 
             <div className="space-y-4 text-xs">
               <div className="flex flex-col">
-                <span className="font-bold text-slate-400 uppercase tracking-wider text-[9px]">Admin Full Name</span>
-                <span className="font-black text-slate-800 mt-1">TPL Portal Administrator</span>
+                <span className="font-bold text-slate-400 uppercase tracking-wider text-[9px]">Full Name</span>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={formData.fullName}
+                    onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))}
+                    className="mt-1 px-3 py-2 border border-slate-200 rounded-lg text-sm font-black text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  />
+                ) : (
+                  <span className="font-black text-slate-800 mt-1">{user?.fullName || user?.name || 'Not Available'}</span>
+                )}
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-slate-400 uppercase tracking-wider text-[9px]">Registered Email</span>
-                <span className="font-black text-indigo-600 mt-1">admin@gmail.com</span>
+                {isEditing ? (
+                  <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                    className="mt-1 px-3 py-2 border border-slate-200 rounded-lg text-sm font-black text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  />
+                ) : (
+                  <span className="font-black text-indigo-600 mt-1">{user?.email || 'Not Available'}</span>
+                )}
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-slate-400 uppercase tracking-wider text-[9px]">Access Level Role</span>
                 <span className="font-black mt-1 uppercase text-[9px] bg-slate-100 px-2 py-0.5 rounded-full w-fit text-indigo-600">
-                  Super Administrator
+                  {role || 'Unknown'}
                 </span>
               </div>
             </div>
           </motion.div>
 
           {/* Portal Configurations */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ ...springConfig, delay: 0.05 }}

@@ -1,10 +1,47 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Settings, Lock, User, Bell, Shield, Save } from 'lucide-react';
 import AnimatedIcon from '@/components/ui/AnimatedIcon';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store';
+import { setCredentials } from '@/store/slices/authSlice';
+import { useUpdateMeMutation, useGetMeQuery } from '@/store/slices/loginApi';
 
 export default function SettingsPage() {
+  const { user: reduxUser, role, isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
+  const [updateMe, { isLoading: isUpdating }] = useUpdateMeMutation();
+  const { data: freshData } = useGetMeQuery(undefined, { skip: !isAuthenticated });
+
+  const activeUser = freshData?.user || freshData?.team || reduxUser;
+
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+  });
+
+  useEffect(() => {
+    if (activeUser) {
+      setFormData({
+        fullName: activeUser.fullName || activeUser.name || '',
+        email: activeUser.email || '',
+      });
+    }
+  }, [activeUser]);
+
+  const handleSave = async () => {
+    try {
+      const result = await updateMe(formData).unwrap();
+      const updatedUser = result.user || result.team;
+      dispatch(setCredentials({ user: updatedUser, role: role as any, token: (reduxUser as any)?.token }));
+      // Optionally show a success toast here
+    } catch (error) {
+      console.error('Failed to update profile', error);
+      // Optionally show an error toast here
+    }
+  };
+
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Header */}
@@ -34,7 +71,8 @@ export default function SettingsPage() {
               <label className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider font-montserrat">Full Name</label>
               <input
                 type="text"
-                defaultValue="Alex Johnson"
+                value={formData.fullName}
+                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                 className="w-full px-4 py-2.5 bg-[#F8F9FA] border border-[#E5E7EB] rounded-xl text-xs font-medium focus:outline-none focus:border-[#FFB800]"
               />
             </div>
@@ -43,7 +81,8 @@ export default function SettingsPage() {
               <label className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider font-montserrat">Email Address</label>
               <input
                 type="email"
-                defaultValue="alex.johnson@tpl.com"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full px-4 py-2.5 bg-[#F8F9FA] border border-[#E5E7EB] rounded-xl text-xs font-medium focus:outline-none focus:border-[#FFB800]"
               />
             </div>
@@ -77,9 +116,13 @@ export default function SettingsPage() {
         </div>
 
         <div className="pt-4 flex justify-end">
-          <button className="px-6 py-3 bg-[#1A1C1C] hover:bg-black text-white text-xs font-bold font-montserrat uppercase tracking-wider rounded-xl transition-all shadow-sm hover:shadow flex items-center gap-2 cursor-pointer">
+          <button 
+            onClick={handleSave}
+            disabled={isUpdating}
+            className="px-6 py-3 bg-[#1A1C1C] hover:bg-black text-white text-xs font-bold font-montserrat uppercase tracking-wider rounded-xl transition-all shadow-sm hover:shadow flex items-center gap-2 cursor-pointer disabled:opacity-50"
+          >
             <Save size={16} className="text-[#FFB800]" />
-            <span>Save Preferences</span>
+            <span>{isUpdating ? 'Saving...' : 'Save Preferences'}</span>
           </button>
         </div>
       </div>
