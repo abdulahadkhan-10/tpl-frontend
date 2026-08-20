@@ -40,7 +40,7 @@ export default function LoginPage() {
         router.push('/dashboard');
       }, 1000);
     } catch (err: any) {
-      setLocalError(err?.data?.message || 'Login failed. Please try again.');
+      setLocalError(err?.data?.error || err?.data?.message || 'Login failed. Please try again.');
     }
   };
 
