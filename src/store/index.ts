@@ -11,16 +11,20 @@ export const rtkQueryErrorLogger: Middleware =
   (api) => (next) => (action) => {
     if (isRejectedWithValue(action)) {
       const payload = action.payload as any;
+      const endpointName = (action as any).meta?.arg?.endpointName;
       // If we receive a 401 Unauthorized, dispatch the logout action
       // to clear the session.
       if (payload?.status === 401) {
-        toast.error('Session expired. Please log in again.');
-        api.dispatch({ type: 'auth/logout' });
+        if (endpointName !== 'login') {
+          toast.error('Session expired. Please log in again.');
+          api.dispatch({ type: 'auth/logout' });
+        }
       } else {
         // For other errors, show a generic toast if it's not a handled mutation
-        // Note: we can be more specific here, but this catches global API failures
-        const errorMessage = payload?.data?.error || payload?.data?.message || 'A network error occurred';
-        toast.error(errorMessage);
+        if (endpointName !== 'login') {
+          const errorMessage = payload?.data?.error || payload?.data?.message || 'A network error occurred';
+          toast.error(errorMessage);
+        }
       }
     }
     return next(action);
