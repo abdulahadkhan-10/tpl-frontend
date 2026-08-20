@@ -16,14 +16,18 @@ export const rtkQueryErrorLogger: Middleware =
       // to clear the session.
       if (payload?.status === 401) {
         if (endpointName !== 'login') {
-          toast.error('Session expired. Please log in again.');
+          if (typeof window !== 'undefined') {
+            toast.error('Session expired. Please log in again.');
+          }
           api.dispatch({ type: 'auth/logout' });
         }
       } else {
         // For other errors, show a generic toast if it's not a handled mutation
         if (endpointName !== 'login') {
           const errorMessage = payload?.data?.error || payload?.data?.message || 'A network error occurred';
-          toast.error(errorMessage);
+          if (typeof window !== 'undefined') {
+            toast.error(errorMessage);
+          }
         }
       }
     }

@@ -31,7 +31,7 @@ export const loginApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ['User'],
+  tagTypes: ['User', 'Ticket'],
   endpoints: (builder) => ({
     login: builder.mutation<any, LoginCredentials>({
       query: (credentials) => ({
