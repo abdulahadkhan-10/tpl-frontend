@@ -76,6 +76,14 @@ export const loginApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+    transferTeamManager: builder.mutation<any, { managerId: string; fullName: string; email?: string; contactNumber: string; role?: string }>({
+      query: ({ managerId, ...payload }) => ({
+        url: `/auth/me/managers/${managerId}/transfer`,
+        method: 'PUT',
+        body: payload,
+      }),
+      invalidatesTags: ['User'],
+    }),
     addInvitation: builder.mutation<any, { playerName: string; playerEmail: string }>({
       query: (payload) => ({
         url: '/auth/me/invitations',
@@ -113,6 +121,7 @@ export const {
   useUpdateMeMutation,
   useLogoutMutation,
   useAddTeamManagerMutation,
+  useTransferTeamManagerMutation,
   useAddInvitationMutation,
   useDeleteInvitationMutation,
   useGetMyInvitationsQuery,
