@@ -3,14 +3,17 @@
 import React from 'react';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import { Shield, Star, Eye, Calendar, Activity, Download } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
+import { useGetMeQuery } from '@/store/slices/loginApi';
 
-const attributeData = [
-  { subject: 'Pace', A: 85, fullMark: 100 },
-  { subject: 'Shooting', A: 78, fullMark: 100 },
+const defaultAttributeData = [
+  { subject: 'Pace', A: 88, fullMark: 100 },
+  { subject: 'Shooting', A: 85, fullMark: 100 },
   { subject: 'Passing', A: 82, fullMark: 100 },
-  { subject: 'Dribbling', A: 88, fullMark: 100 },
-  { subject: 'Defending', A: 45, fullMark: 100 },
-  { subject: 'Physical', A: 72, fullMark: 100 },
+  { subject: 'Dribbling', A: 89, fullMark: 100 },
+  { subject: 'Defending', A: 48, fullMark: 100 },
+  { subject: 'Physical', A: 76, fullMark: 100 },
 ];
 
 const scoutViewsData = [
@@ -24,6 +27,29 @@ const scoutViewsData = [
 ];
 
 export default function PlayerDashboardWidgets() {
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const { data: freshData } = useGetMeQuery(undefined, { skip: !isAuthenticated });
+
+  const user = freshData?.user;
+  const player = user?.player;
+  const team = player?.team;
+
+  const playerName = user?.fullName || 'Alex Hunter';
+  const teamName = team?.name || 'Riverside Rovers FC';
+  const position = player?.position || 'Forward / Striker (ST)';
+  const shortPos = position.includes('ST') || position.includes('Forward') ? 'ST' : 'MID';
+  const ovrGrade = player?.scoutGrade ? Math.round(player.scoutGrade * 10) : 84;
+
+  const stats = (player?.stats as any) || {};
+  const dynamicAttributeData = [
+    { subject: 'Pace', A: stats.pace || 88, fullMark: 100 },
+    { subject: 'Shooting', A: stats.shooting || 85, fullMark: 100 },
+    { subject: 'Passing', A: stats.passing || 82, fullMark: 100 },
+    { subject: 'Dribbling', A: stats.dribbling || 89, fullMark: 100 },
+    { subject: 'Defending', A: stats.defending || 48, fullMark: 100 },
+    { subject: 'Physical', A: stats.physical || 76, fullMark: 100 },
+  ];
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Left Column: Player Card & Radar */}
@@ -34,23 +60,23 @@ export default function PlayerDashboardWidgets() {
           
           <div className="flex items-start justify-between relative z-10">
             <div className="space-y-1">
-              <div className="text-4xl font-black font-montserrat text-[#FFB800]">84</div>
+              <div className="text-4xl font-black font-montserrat text-[#FFB800]">{ovrGrade}</div>
               <div className="text-xs font-bold text-white/60 uppercase tracking-widest">OVR Scout Grade</div>
             </div>
             <div className="text-right space-y-1">
-              <div className="text-2xl font-black text-white font-montserrat">ST</div>
+              <div className="text-2xl font-black text-white font-montserrat">{shortPos}</div>
               <div className="text-[10px] font-bold text-[#FFB800] uppercase tracking-wider">Position</div>
             </div>
           </div>
 
           <div className="mt-6 flex flex-col items-center relative z-10">
-            <div className="w-24 h-24 rounded-full border-4 border-[#FFB800] bg-slate-800 mb-4 overflow-hidden relative shadow-[0_0_15px_rgba(255,184,0,0.3)]">
-               <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&q=80&w=200&h=200" alt="Player" className="w-full h-full object-cover" />
+            <div className="w-24 h-24 rounded-full border-4 border-[#FFB800] bg-slate-800 mb-4 overflow-hidden relative shadow-[0_0_15px_rgba(255,184,0,0.3)] flex items-center justify-center text-2xl font-black text-[#FFB800]">
+              {playerName.split(' ').map((n: string) => n[0]).join('').slice(0, 2).toUpperCase()}
             </div>
-            <h2 className="text-xl font-black font-montserrat text-white">Akshat Gupta</h2>
+            <h2 className="text-xl font-black font-montserrat text-white">{playerName}</h2>
             <div className="flex items-center gap-2 mt-1 bg-white/10 px-3 py-1 rounded-full border border-white/10">
               <Shield size={12} className="text-[#FFB800]" />
-              <span className="text-xs font-bold text-white uppercase tracking-wider">Phoenix XI</span>
+              <span className="text-xs font-bold text-white uppercase tracking-wider">{teamName}</span>
             </div>
           </div>
         </div>
@@ -63,7 +89,7 @@ export default function PlayerDashboardWidgets() {
           </h3>
           <div className="w-full h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
-              <RadarChart cx="50%" cy="50%" outerRadius="70%" data={attributeData}>
+              <RadarChart cx="50%" cy="50%" outerRadius="70%" data={dynamicAttributeData}>
                 <PolarGrid stroke="#E5E7EB" />
                 <PolarAngleAxis dataKey="subject" tick={{ fill: '#475569', fontSize: 10, fontWeight: 'bold' }} />
                 <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
@@ -113,18 +139,18 @@ export default function PlayerDashboardWidgets() {
             <div className="space-y-4 relative z-10">
               <div className="flex items-center justify-between">
                 <div className="text-center">
-                  <div className="text-2xl font-black font-montserrat">PHX</div>
-                  <div className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Phoenix</div>
+                  <div className="text-2xl font-black font-montserrat text-[#FFB800]">RR</div>
+                  <div className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Riverside</div>
                 </div>
                 <div className="text-xs font-black text-slate-500 px-3 py-1 bg-slate-800 rounded-full border border-slate-700">VS</div>
                 <div className="text-center">
                   <div className="text-2xl font-black font-montserrat">APX</div>
-                  <div className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Apex</div>
+                  <div className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Apex Strikers</div>
                 </div>
               </div>
               <div className="pt-4 border-t border-slate-800/50">
                 <p className="text-sm font-bold">Sat, 24 Aug • 16:00 IST</p>
-                <p className="text-xs text-slate-400 mt-1">TPL Arena, Pitch 2</p>
+                <p className="text-xs text-slate-400 mt-1">London Arena, Pitch 1</p>
               </div>
             </div>
           </div>
@@ -139,7 +165,7 @@ export default function PlayerDashboardWidgets() {
               <p className="text-xs text-slate-500 mb-4 font-medium leading-relaxed">Your highlight clips from Matchweek 3 are ready for download. Share them on socials to boost your scout rating.</p>
             </div>
             
-            <button className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#1A1C1C] hover:bg-black text-white text-xs font-bold font-montserrat uppercase tracking-wider rounded-xl transition-all shadow-sm">
+            <button className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#1A1C1C] hover:bg-black text-white text-xs font-bold font-montserrat uppercase tracking-wider rounded-xl transition-all shadow-sm cursor-pointer">
               <Download size={16} />
               Download MP4 (1080p)
             </button>

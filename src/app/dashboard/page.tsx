@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { Shield, Trophy, Users, Calendar, Activity, ChevronRight, Sparkles, AlertTriangle, CheckCircle, XCircle, Info, PieChart as PieChartIcon, LayoutTemplate } from 'lucide-react';
 import Link from 'next/link';
 import PlayerDashboardWidgets from '@/components/player/PlayerDashboardWidgets';
+import SquadInvitationBanner from '@/components/player/SquadInvitationBanner';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 const goalTrendData = [
@@ -225,7 +226,10 @@ export default function DashboardPage() {
       </div>
 
       {!isTeam ? (
-        <PlayerDashboardWidgets />
+        <div className="space-y-6">
+          <SquadInvitationBanner />
+          <PlayerDashboardWidgets />
+        </div>
       ) : (
         <>
           {/* Overview Stat Cards Grid */}

@@ -76,9 +76,47 @@ export const loginApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+    addInvitation: builder.mutation<any, { playerName: string; playerEmail: string }>({
+      query: (payload) => ({
+        url: '/auth/me/invitations',
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['User'],
+    }),
+    deleteInvitation: builder.mutation<any, string>({
+      query: (invitationId) => ({
+        url: `/auth/me/invitations/${invitationId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['User'],
+    }),
+    getMyInvitations: builder.query<{ invitations: any[] }, void>({
+      query: () => '/auth/me/invitations',
+      providesTags: ['User'],
+    }),
+    respondToInvitation: builder.mutation<any, { invitationId: string; action: 'ACCEPT' | 'REJECT' }>({
+      query: ({ invitationId, action }) => ({
+        url: `/auth/me/invitations/${invitationId}/respond`,
+        method: 'POST',
+        body: { action },
+      }),
+      invalidatesTags: ['User'],
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterTeamMutation, useGetMeQuery, useUpdateMeMutation, useLogoutMutation, useAddTeamManagerMutation } = loginApi;
+export const {
+  useLoginMutation,
+  useRegisterTeamMutation,
+  useGetMeQuery,
+  useUpdateMeMutation,
+  useLogoutMutation,
+  useAddTeamManagerMutation,
+  useAddInvitationMutation,
+  useDeleteInvitationMutation,
+  useGetMyInvitationsQuery,
+  useRespondToInvitationMutation,
+} = loginApi;
 export const authApi = loginApi; // Alias for cleaner references
 export type AuthApi = typeof loginApi;
