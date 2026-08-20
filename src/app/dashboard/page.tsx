@@ -243,11 +243,11 @@ export default function DashboardPage() {
 
             <div className="bg-white p-5 rounded-xl border border-[#E5E7EB] shadow-xs space-y-2">
               <div className="flex items-center justify-between text-slate-500">
-                <span className="text-xs font-extrabold font-montserrat uppercase tracking-wider">Staff Managers</span>
+                <span className="text-xs font-extrabold font-montserrat uppercase tracking-wider">Team Manager</span>
                 <Shield size={18} className="text-[#FFB800]" />
               </div>
-              <p className="text-2xl font-black font-montserrat text-[#1A1C1C]">2</p>
-              <p className="text-[11px] text-slate-500 font-medium">Head Coach & Assistant</p>
+              <p className="text-2xl font-black font-montserrat text-[#1A1C1C]">1</p>
+              <p className="text-[11px] text-emerald-600 font-medium">Verified Official Lead</p>
             </div>
 
             <div className="bg-white p-5 rounded-xl border border-[#E5E7EB] shadow-xs space-y-2">
@@ -479,8 +479,8 @@ export default function DashboardPage() {
                 <p className="text-xs text-slate-500 mt-1">Review player details, medical consents, and registration statuses.</p>
               </Link>
               <Link href="/dashboard/managers" className="p-4 bg-[#F8F9FA] hover:bg-[#FFF9E6] border border-[#E5E7EB] hover:border-[#FFB800] rounded-xl transition-all cursor-pointer group">
-                <h3 className="font-bold text-sm font-montserrat text-[#1A1C1C] group-hover:text-[#7C5800]">Managers List</h3>
-                <p className="text-xs text-slate-500 mt-1">Assign coaching staff and manage technical permissions.</p>
+                <h3 className="font-bold text-sm font-montserrat text-[#1A1C1C] group-hover:text-[#7C5800]">Team Manager Profile</h3>
+                <p className="text-xs text-slate-500 mt-1">Review official manager registration and TPL league liaison contacts.</p>
               </Link>
               <Link href="/dashboard/match-fixtures" className="p-4 bg-[#F8F9FA] hover:bg-[#FFF9E6] border border-[#E5E7EB] hover:border-[#FFB800] rounded-xl transition-all cursor-pointer group">
                 <h3 className="font-bold text-sm font-montserrat text-[#1A1C1C] group-hover:text-[#7C5800]">Match Fixtures</h3>

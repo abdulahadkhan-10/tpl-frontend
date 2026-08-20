@@ -31,7 +31,7 @@ export default function LoginPage() {
     try {
       const result = await login({ email, password, role: loginType }).unwrap();
       dispatch(setCredentials({
-        user: result.user,
+        user: result.user || result.team,
         role: result.role || (result.user?.roleType?.toLowerCase()) || loginType,
         token: result.token
       }));

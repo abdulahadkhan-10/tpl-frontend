@@ -80,12 +80,13 @@ export default function TicketsPage() {
     if (!ticketsData?.tickets) return [];
     
     if (isManager) {
+      const currentTeamId = user?.id || user?.team?.id;
       if (activeTab === 'incoming') {
         // Player tickets routed to this team manager
-        return ticketsData.tickets.filter(t => t.target === 'TEAM' && t.teamId === user?.id);
+        return ticketsData.tickets.filter(t => t.target === 'TEAM' && (!currentTeamId || t.teamId === currentTeamId));
       } else {
         // Tickets this team manager raised to the admin
-        return ticketsData.tickets.filter(t => t.creatorTeamId === user?.id);
+        return ticketsData.tickets.filter(t => t.target === 'ADMIN' || (currentTeamId && t.creatorTeamId === currentTeamId));
       }
     }
     return ticketsData.tickets;
@@ -110,6 +111,9 @@ export default function TicketsPage() {
       setCategory('GENERAL');
       setMessage('');
       setIsModalOpen(false);
+      if (isManager) {
+        setActiveTab('outgoing');
+      }
       refetch();
     } catch (err: any) {
       setFormError(err?.data?.error || 'Failed to submit ticket. Please try again.');
