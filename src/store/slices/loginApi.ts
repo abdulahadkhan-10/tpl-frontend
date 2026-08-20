@@ -49,6 +49,14 @@ export const loginApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+    registerUser: builder.mutation<any, any>({
+      query: (payload) => ({
+        url: '/auth/register',
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['User'],
+    }),
     getMe: builder.query<any, void>({
       query: () => '/auth/me',
       providesTags: ['User'],
@@ -117,6 +125,7 @@ export const loginApi = createApi({
 export const {
   useLoginMutation,
   useRegisterTeamMutation,
+  useRegisterUserMutation,
   useGetMeQuery,
   useUpdateMeMutation,
   useLogoutMutation,

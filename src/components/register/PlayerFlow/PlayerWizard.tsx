@@ -2,9 +2,10 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 import { RootState } from '@/store';
 import { setPlayerRegistrationData, setStep, nextStep, prevStep, resetRegistration } from '@/store/slices/registrationSlice';
+import { useRegisterUserMutation } from '@/store/slices/loginApi';
 import { PersonalInfoStep } from './Steps/PersonalInfoStep';
 import { MedicalInfoStep } from './Steps/MedicalInfoStep';
 import { FootballInfoStep } from './Steps/FootballInfoStep';
@@ -16,9 +17,13 @@ export const PlayerWizard = () => {
   const playerData = useSelector((state: RootState) => state.registration.playerRegistration);
   const dispatch = useDispatch();
   const router = useRouter();
+
+  const [registerUserApi, { isLoading: isRegistering }] = useRegisterUserMutation();
+
   const [isCompleted, setIsCompleted] = useState(false);
   const [hasRestoredDraft, setHasRestoredDraft] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Check for stored draft on mount
   useEffect(() => {
@@ -89,10 +94,53 @@ export const PlayerWizard = () => {
     dispatch(nextStep());
   };
 
-  const handleFinalSubmit = (data: any) => {
-    dispatch(setPlayerRegistrationData(data));
-    localStorage.removeItem('tpl_player_registration_draft');
-    setIsCompleted(true);
+  const handleFinalSubmit = async (agreementsData: any) => {
+    const fullPayload = { ...playerData, ...agreementsData };
+    dispatch(setPlayerRegistrationData(fullPayload));
+    setSubmitError(null);
+
+    try {
+      await registerUserApi({
+        email: fullPayload.email,
+        password: fullPayload.password,
+        fullName: fullPayload.fullName,
+        roleType: 'PLAYER',
+        profileData: {
+          position: fullPayload.preferredPosition || fullPayload.position || 'Forward',
+          dateOfBirth: fullPayload.dateOfBirth,
+          pricingTier: 'Standard',
+          nationality: fullPayload.nationality,
+          homeAddress: fullPayload.homeAddress,
+          mobileNumber: fullPayload.mobileNumber,
+          emergencyContactName: fullPayload.emergencyContactName,
+          emergencyContactRelation: fullPayload.emergencyContactRelation,
+          emergencyContactPhone: fullPayload.emergencyContactPhone,
+          medicalConditions: fullPayload.medicalConditions,
+          allergies: fullPayload.allergies,
+          medicationDetails: fullPayload.medicationDetails,
+          gpName: fullPayload.gpName,
+          previousClub: fullPayload.previousClub,
+          shirtSize: fullPayload.shirtSize,
+          shortsSize: fullPayload.shortsSize,
+          sockSize: fullPayload.sockSize,
+          instagramUsername: fullPayload.instagramUsername,
+          tiktokUsername: fullPayload.tiktokUsername,
+          youtubeChannel: fullPayload.youtubeChannel,
+          confirmedInfoCorrect: fullPayload.confirmedInfoCorrect ?? true,
+          acceptedPlayerAgreement: fullPayload.acceptedPlayerAgreement ?? true,
+          signature: fullPayload.signature,
+          parentName: fullPayload.parentName,
+          parentRelationship: fullPayload.parentRelationship,
+          parentPhone: fullPayload.parentPhone,
+          parentEmail: fullPayload.parentEmail,
+        },
+      }).unwrap();
+
+      localStorage.removeItem('tpl_player_registration_draft');
+      setIsCompleted(true);
+    } catch (err: any) {
+      setSubmitError(err?.data?.error || 'Registration failed. Please try again.');
+    }
   };
 
   // Determine what component to render for each logic step
@@ -161,25 +209,50 @@ export const PlayerWizard = () => {
     return (
       <div className="min-h-screen bg-slate-50 bg-[url('/images/stadium-bg.png')] bg-cover bg-center bg-fixed bg-no-repeat font-outfit py-12 px-4 flex items-center justify-center">
         <div className="max-w-2xl w-full bg-white rounded-3xl shadow-xl overflow-hidden p-8 md:p-12 text-center space-y-6">
-          <div className="w-20 h-20 bg-indigo-100 text-indigo-650 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
             </svg>
           </div>
           <h2 className="text-3xl font-extrabold text-slate-800">Registration Complete!</h2>
-          <p className="text-slate-500">
-            Thank you, <span className="font-bold text-slate-800">{playerData?.fullName}</span>. Your details have been submitted and you are registered for the Talent Pro League.
+          <p className="text-slate-600">
+            Welcome to the Talent Pro League, <strong className="text-slate-900">{playerData?.fullName}</strong>!
           </p>
+          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 text-left text-xs font-montserrat space-y-2">
+            <div className="text-slate-500 font-bold uppercase tracking-wider text-[11px]">Your Login Credentials</div>
+            <div className="flex justify-between py-1 border-b border-slate-100">
+              <span className="text-slate-500">Registered Email:</span>
+              <span className="font-bold text-slate-800">{playerData?.email}</span>
+            </div>
+            <div className="flex justify-between py-1 border-b border-slate-100">
+              <span className="text-slate-500">Role:</span>
+              <span className="font-bold text-[#7C5800]">Player</span>
+            </div>
+            <div className="text-[11px] text-slate-400 pt-1">
+              ✨ An official confirmation email with your login credentials has also been sent to your email address.
+            </div>
+          </div>
 
-          <button 
-            onClick={() => {
-              dispatch(setStep(1));
-              window.location.href = '/';
-            }}
-            className="mt-6 px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-colors shadow-md"
-          >
-            Go to Homepage
-          </button>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+            <button 
+              onClick={() => {
+                dispatch(resetRegistration());
+                router.push('/login');
+              }}
+              className="px-8 py-3.5 bg-[#1A1C1C] hover:bg-black text-[#FFB800] font-black font-montserrat uppercase tracking-wider text-xs rounded-xl transition-all shadow-md cursor-pointer"
+            >
+              Log In to Player Portal
+            </button>
+            <button 
+              onClick={() => {
+                dispatch(resetRegistration());
+                router.push('/');
+              }}
+              className="px-6 py-3.5 border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold font-montserrat uppercase tracking-wider text-xs rounded-xl transition-all cursor-pointer"
+            >
+              Back to Home
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -214,24 +287,46 @@ export const PlayerWizard = () => {
           </div>
           <button 
             onClick={handleStartOver}
-            className="text-xs font-bold text-indigo-600 hover:text-indigo-800 underline underline-offset-2"
+            className="text-xs font-bold text-indigo-600 hover:text-indigo-800 underline underline-offset-2 cursor-pointer"
           >
             Start Over
           </button>
         </div>
       )}
+
+      {submitError && (
+        <div className="max-w-3xl mx-auto mb-4 bg-red-50 border border-red-200 text-red-700 p-4 rounded-2xl text-xs font-bold font-montserrat flex items-center justify-between">
+          <span>{submitError}</span>
+          <button onClick={() => setSubmitError(null)} className="text-red-500 hover:text-red-800 cursor-pointer">✕</button>
+        </div>
+      )}
+
       <div className="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
         {/* Header Progress */}
-        <div className="bg-indigo-600 p-8 text-white relative">
-          <h2 className="text-3xl font-extrabold mb-1">Player Registration</h2>
-          <p className="text-indigo-100 text-sm">Step {currentStep} of {totalSteps}: {
-            currentStep === 1 ? 'Personal Info' :
-            currentStep === 2 ? 'Emergency & Medical' :
-            currentStep === 3 ? 'Football & Kit' :
-            isUnder18 && currentStep === 4 ? 'Parent Consent' : 'Agreements'
-          }</p>
-          <div className="w-full bg-indigo-850/40 rounded-full h-1.5 mt-4 overflow-hidden">
-            <div className="bg-white h-full rounded-full transition-all duration-300" style={{ width: `${(currentStep / totalSteps) * 100}%` }}></div>
+        <div className="bg-[#1A1C1C] p-8 text-white relative border-b-2 border-[#FFB800]">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-black font-montserrat uppercase tracking-tight text-white mb-1">
+                Player Registration
+              </h2>
+              <p className="text-slate-400 text-xs font-bold uppercase tracking-wider">
+                Step {currentStep} of {totalSteps}: {
+                  currentStep === 1 ? 'Personal & Account Info' :
+                  currentStep === 2 ? 'Emergency & Medical' :
+                  currentStep === 3 ? 'Football & Kit' :
+                  isUnder18 && currentStep === 4 ? 'Parent Consent' : 'Agreements'
+                }
+              </p>
+            </div>
+            {isRegistering && (
+              <div className="flex items-center gap-2 text-xs font-bold text-[#FFB800]">
+                <Loader2 className="animate-spin" size={16} />
+                <span>Creating Profile...</span>
+              </div>
+            )}
+          </div>
+          <div className="w-full bg-slate-800 rounded-full h-1.5 mt-4 overflow-hidden">
+            <div className="bg-[#FFB800] h-full rounded-full transition-all duration-300" style={{ width: `${(currentStep / totalSteps) * 100}%` }}></div>
           </div>
         </div>
 
