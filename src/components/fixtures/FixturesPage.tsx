@@ -159,11 +159,72 @@ const mockFixtures: Fixture[] = [
 ];
 
 export default function FixturesPage() {
-  const [competition, setCompetition] = useState<string>("All");
-  const [season, setSeason] = useState<string>("2026/2027");
+  const [competition, setCompetition] = useState("All");
+  const [season, setSeason] = useState("2026/2027");
   const [matchweek, setMatchweek] = useState<number>(1);
   const [statusTab, setStatusTab] = useState<"ALL" | "LIVE" | "UPCOMING" | "RESULTS">("ALL");
+  const [fixturesList, setFixturesList] = useState<Fixture[]>(mockFixtures);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    async function loadLiveFixtures() {
+      try {
+        const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+        const res = await fetch(`${apiBaseUrl}/api/fixtures`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.fixtures && Array.isArray(data.fixtures) && data.fixtures.length > 0) {
+            const clubNameMap: Record<string, string> = {
+              "club-1": "Riverside FC",
+              "club-2": "Camden Rovers",
+              "club-3": "Ashford Town",
+              "club-4": "Highfield United",
+              "club-5": "Oldbridge FC",
+              "club-6": "Sutton Wanderers",
+            };
+
+            const mapped: Fixture[] = data.fixtures.map((f: any) => {
+              const hName = clubNameMap[f.homeClubId] || f.homeClubId || "Home Team";
+              const aName = clubNameMap[f.awayClubId] || f.awayClubId || "Away Team";
+              const dateObj = new Date(f.kickoff);
+              const dateStr = dateObj.toISOString().split("T")[0];
+              const timeStr = dateObj.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
+              const dayNames = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
+              const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+
+              let status: "UPCOMING" | "LIVE" | "FT" | "POSTPONED" | "CANCELLED" = "UPCOMING";
+              if (f.status === "LIVE") status = "LIVE";
+              else if (f.status === "FULL_TIME") status = "FT";
+              else if (f.status === "POSTPONED") status = "POSTPONED";
+
+              return {
+                id: f.id,
+                homeTeam: { name: hName.toUpperCase(), short: hName.slice(0, 3).toUpperCase(), logo: "/images/TPL_logo_White.png" },
+                awayTeam: { name: aName.toUpperCase(), short: aName.slice(0, 3).toUpperCase(), logo: "/images/TPL_logo_White.png" },
+                competition: "TPL Championship",
+                season: "2026/2027",
+                matchweek: 1,
+                date: dateStr,
+                dayName: dayNames[dateObj.getDay()] || "SATURDAY",
+                dayText: `${dateObj.getDate()} ${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`,
+                time: timeStr,
+                status,
+                minute: f.minute ?? undefined,
+                homeScore: f.homeScore ?? undefined,
+                awayScore: f.awayScore ?? undefined,
+                stadium: f.venue || "TPL Stadium",
+              };
+            });
+
+            setFixturesList(mapped);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load live fixtures:", err);
+      }
+    }
+    loadLiveFixtures();
+  }, []);
 
   // Simulate loading state transitions on matchweek change for polished UX
   useEffect(() => {
@@ -177,7 +238,7 @@ export default function FixturesPage() {
   // const { data } = useFixturesQuery({ competition, season, matchweek, statusTab });
   
   // FRONTEND FILTERING LOGIC
-  const filteredFixtures = mockFixtures.filter((fixture) => {
+  const filteredFixtures = fixturesList.filter((fixture) => {
     const matchesCompetition = competition === "All" || fixture.competition === competition;
     const matchesSeason = fixture.season === season;
     const matchesMatchweek = fixture.matchweek === matchweek;

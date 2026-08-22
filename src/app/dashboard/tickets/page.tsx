@@ -11,6 +11,7 @@ import {
   useUpdateTicketStatusMutation,
   Ticket,
 } from '@/store/slices/ticketApi';
+import { getSocket } from '@/lib/socket';
 import {
   Plus,
   MessageSquare,
@@ -56,12 +57,43 @@ export default function TicketsPage() {
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   // Load ticket details query
-  const { data: detailsData, isLoading: isLoadingDetails } = useGetTicketDetailsQuery(
+  const { data: detailsData, isLoading: isLoadingDetails, refetch: refetchDetails } = useGetTicketDetailsQuery(
     selectedTicketId ?? '',
     { skip: !selectedTicketId }
   );
 
   const selectedTicket = detailsData?.ticket;
+
+  // Real-time socket message subscription
+  useEffect(() => {
+    if (!selectedTicketId) return;
+    const socket = getSocket();
+    socket.emit('join_ticket', selectedTicketId);
+
+    const handleNewMessage = (data: { ticketId: string; message: any }) => {
+      if (data.ticketId === selectedTicketId) {
+        refetchDetails();
+        refetch();
+      }
+    };
+
+    const handleStatusChange = (data: { ticketId: string; status: string }) => {
+      if (data.ticketId === selectedTicketId) {
+        refetchDetails();
+        refetch();
+      }
+    };
+
+    socket.on('new_message', handleNewMessage);
+    socket.on('ticket_status_changed', handleStatusChange);
+
+    return () => {
+      socket.emit('leave_ticket', selectedTicketId);
+      socket.off('new_message', handleNewMessage);
+      socket.off('ticket_status_changed', handleStatusChange);
+    };
+  }, [selectedTicketId, refetchDetails, refetch]);
+
 
   // Auto-scroll chat to bottom
   useEffect(() => {

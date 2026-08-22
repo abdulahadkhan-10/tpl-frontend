@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import OfficialPartners from "@/components/home/OfficialPartners";
 
@@ -27,22 +27,61 @@ const initialStandings: StandingRow[] = [
   { pos: 4, name: "ARSENAL ACADEMY", logo: "/images/TPL_logo_White.png", pts: 38, p: 22, w: 11, d: 5, l: 6, gf: 34, ga: 24, gd: 10, color: "bg-green-600", players: ["Ethan Nwaneri Jr", "Jack Porter", "Myles Lewis-Skelly"] },
   { pos: 5, name: "WEST HAM UNITED", logo: "/images/TPL_logo_White.png", pts: 36, p: 22, w: 11, d: 3, l: 8, gf: 33, ga: 28, gd: 5, color: "bg-green-600", players: ["Divin Mubama", "George Earthy", "Kaelan Casey"] },
   { pos: 6, name: "TOTTENHAM HOTSPUR", logo: "/images/TPL_logo_White.png", pts: 35, p: 22, w: 10, d: 5, l: 7, gf: 31, ga: 28, gd: 3, color: "bg-blue-500", players: ["Mikey Moore", "Jamie Donley", "Alfie Devine"] },
-  { pos: 7, name: "ASTON VILLA", logo: "/images/TPL_logo_White.png", pts: 33, p: 22, w: 9, d: 6, l: 7, gf: 29, ga: 27, gd: 2, color: "bg-slate-200", players: ["Jaden Philogene", "Jacob Ramsey", "Omari Kellyman"] },
-  { pos: 8, name: "BIRMINGHAM CITY", logo: "/images/TPL_logo_White.png", pts: 33, p: 22, w: 9, d: 6, l: 7, gf: 28, ga: 26, gd: 2, color: "bg-slate-200", players: ["John Davies Jr", "Jordan James Jr", "Jobe Bellingham Jr"] },
-  { pos: 9, name: "LIVERPOOL ACADEMY", logo: "/images/TPL_logo_White.png", pts: 29, p: 22, w: 8, d: 5, l: 9, gf: 25, ga: 27, gd: -2, color: "bg-slate-200", players: ["Steve Gerrard III", "Jayden Danns", "Lewis Koumas"] },
-  { pos: 10, name: "LEEDS ACADEMY", logo: "/images/TPL_logo_White.png", pts: 30, p: 22, w: 8, d: 6, l: 8, gf: 24, ga: 28, gd: -4, color: "bg-slate-200", players: ["Archie Gray Jr", "Mateo Joseph", "Charlie Crew"] },
-  { pos: 11, name: "EVERTON YOUTH", logo: "/images/TPL_logo_White.png", pts: 25, p: 22, w: 7, d: 4, l: 11, gf: 22, ga: 32, gd: -10, color: "bg-slate-200", players: [ "Lewis Dobbin", "Tyler Onyango", "Jarrad Branthwaite"] },
-  { pos: 12, name: "NEWCASTLE UNITED", logo: "/images/TPL_logo_White.png", pts: 22, p: 22, w: 6, d: 4, l: 12, gf: 20, ga: 34, gd: -14, color: "bg-slate-200", players: ["Lewis Miley", "Elliot Anderson", "Joe White"] },
-  { pos: 13, name: "CRYSTAL PALACE", logo: "/images/TPL_logo_White.png", pts: 21, p: 22, w: 5, d: 6, l: 11, gf: 18, ga: 30, gd: -12, color: "bg-slate-200", players: ["Jesurun Rak-Sakyi", "David Ozoh", "Matheus França"] },
-  { pos: 14, name: "FULHAM ACADEMY", logo: "/images/TPL_logo_White.png", pts: 20, p: 22, w: 5, d: 5, l: 12, gf: 19, ga: 32, gd: -13, color: "bg-slate-200", players: ["Luke Harris", "Jay Stansfield", "Adrion Pajaziti"] },
-  { pos: 15, name: "SOUTHAMPTON YOUTH", logo: "/images/TPL_logo_White.png", pts: 18, p: 22, w: 4, d: 6, l: 12, gf: 16, ga: 31, gd: -15, color: "bg-slate-200", players: ["Tyler Dibling", "Samuel Amo-Ameyaw", "Dom Ballard"] },
-  { pos: 16, name: "LEICESTER CITY", logo: "/images/TPL_logo_White.png", pts: 16, p: 22, w: 4, d: 4, l: 14, gf: 15, ga: 35, gd: -20, color: "bg-red-500", players: ["Will Alves", "Wanya Marçal", "Kasey McAteer"] },
-  { pos: 17, name: "WOLVERHAMPTON YOUTH", logo: "/images/TPL_logo_White.png", pts: 15, p: 22, w: 3, d: 6, l: 13, gf: 14, ga: 36, gd: -22, color: "bg-red-500", players: ["Nathan Fraser", "Tawanda Chirewa", "Leon Chiwome"] },
-  { pos: 18, name: "BRENTFORD ACADEMY", logo: "/images/TPL_logo_White.png", pts: 12, p: 22, w: 2, d: 6, l: 14, gf: 11, ga: 38, gd: -27, color: "bg-red-500", players: ["Yehor Yarmoliuk", "Michael Olakigbe", "Val Adedokun"] },
 ];
 
 export default function StandingsPage() {
+  const [standingsList, setStandingsList] = useState<StandingRow[]>(initialStandings);
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
+
+  useEffect(() => {
+    async function loadLiveStandings() {
+      try {
+        const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+        const res = await fetch(`${apiBaseUrl}/api/fixtures/standings`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.standings && Array.isArray(data.standings) && data.standings.length > 0) {
+            const clubNameMap: Record<string, string> = {
+              "club-1": "Riverside FC",
+              "club-2": "Camden Rovers",
+              "club-3": "Ashford Town",
+              "club-4": "Highfield United",
+              "club-5": "Oldbridge FC",
+              "club-6": "Sutton Wanderers",
+            };
+
+            const mapped: StandingRow[] = data.standings.map((r: any) => {
+              const name = clubNameMap[r.clubId] || r.clubId || "Registered Club";
+              let color = "bg-slate-200";
+              if (r.zone === "PROMOTION") color = "bg-green-600";
+              else if (r.zone === "RELEGATION") color = "bg-red-500";
+
+              return {
+                pos: r.position,
+                name: name.toUpperCase(),
+                logo: "/images/TPL_logo_White.png",
+                pts: r.points,
+                p: r.played,
+                w: r.won,
+                d: r.drawn,
+                l: r.lost,
+                gf: r.goalsFor,
+                ga: r.goalsAgainst,
+                gd: r.goalsFor - r.goalsAgainst,
+                color,
+                players: ["Marcus Reid", "Alex Hunter", "Liam Kearns"],
+              };
+            });
+
+            setStandingsList(mapped);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load live standings:", err);
+      }
+    }
+    loadLiveStandings();
+  }, []);
 
   const toggleRow = (pos: number) => {
     setExpandedRow(expandedRow === pos ? null : pos);
@@ -79,7 +118,7 @@ export default function StandingsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {initialStandings.map((club) => {
+                {standingsList.map((club) => {
                   const isExpanded = expandedRow === club.pos;
                   return (
                     <React.Fragment key={club.pos}>
