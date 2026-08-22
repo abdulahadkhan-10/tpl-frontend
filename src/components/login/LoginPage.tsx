@@ -1,7 +1,9 @@
 "use client";
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useLoginMutation } from '@/store/slices/loginApi';
@@ -145,7 +147,7 @@ export default function LoginPage() {
           <div className="space-y-1.5">
             <div className="flex justify-between items-center">
               <Label htmlFor="password" className="text-xs font-bold text-slate-700 uppercase tracking-wider">Password</Label>
-              <a href="#forgot" className="text-[11px] font-bold text-indigo-650 hover:underline">Forgot?</a>
+              <Link href="/forgot-password" className="text-[11px] font-bold text-slate-500 hover:text-black transition-colors">Forgot?</Link>
             </div>
             <div className="relative">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">

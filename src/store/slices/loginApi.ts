@@ -119,6 +119,18 @@ export const loginApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+    getTactics: builder.query<{ tactics: any }, void>({
+      query: () => '/auth/me/tactics',
+      providesTags: ['User'],
+    }),
+    saveTactics: builder.mutation<any, { tactics: any }>({
+      query: (payload) => ({
+        url: '/auth/me/tactics',
+        method: 'PUT',
+        body: payload,
+      }),
+      invalidatesTags: ['User'],
+    }),
   }),
 });
 
@@ -135,6 +147,9 @@ export const {
   useDeleteInvitationMutation,
   useGetMyInvitationsQuery,
   useRespondToInvitationMutation,
+  useGetTacticsQuery,
+  useSaveTacticsMutation,
 } = loginApi;
 export const authApi = loginApi; // Alias for cleaner references
 export type AuthApi = typeof loginApi;
+

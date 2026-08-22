@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Save, Shield, LayoutTemplate, Users } from 'lucide-react';
+import { ArrowLeft, Save, Shield, LayoutTemplate, Users, Loader2, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
+import { useGetTacticsQuery, useSaveTacticsMutation, useGetMeQuery } from '@/store/slices/loginApi';
 
 const initialPlayers = [
   { id: 1, name: 'D. De Gea', number: 1, type: 'GK' },
@@ -152,22 +153,35 @@ export default function TacticsBuilder() {
   const [isSaved, setIsSaved] = useState(false);
   const [mounted, setMounted] = useState(false);
 
+  // Backend Queries & Mutations
+  const { data: tacticsData } = useGetTacticsQuery();
+  const [saveTacticsMutation, { isLoading: isSavingBackend }] = useSaveTacticsMutation();
+
   useEffect(() => {
-    const savedData = localStorage.getItem('tpl_tactics');
-    if (savedData) {
-      try {
-        const { savedFormation, savedStartingXI, savedBench } = JSON.parse(savedData);
-        if (savedFormation && formations[savedFormation]) {
-          setFormation(savedFormation);
+    if (tacticsData?.tactics) {
+      const { savedFormation, savedStartingXI, savedBench } = tacticsData.tactics;
+      if (savedFormation && formations[savedFormation]) {
+        setFormation(savedFormation);
+      }
+      if (savedStartingXI) setStartingXI(savedStartingXI);
+      if (savedBench) setBench(savedBench);
+    } else {
+      const savedData = localStorage.getItem('tpl_tactics');
+      if (savedData) {
+        try {
+          const { savedFormation, savedStartingXI, savedBench } = JSON.parse(savedData);
+          if (savedFormation && formations[savedFormation]) {
+            setFormation(savedFormation);
+          }
+          if (savedStartingXI) setStartingXI(savedStartingXI);
+          if (savedBench) setBench(savedBench);
+        } catch (e) {
+          console.error("Failed to parse saved tactics", e);
         }
-        if (savedStartingXI) setStartingXI(savedStartingXI);
-        if (savedBench) setBench(savedBench);
-      } catch (e) {
-        console.error("Failed to parse saved tactics", e);
       }
     }
     setMounted(true);
-  }, []);
+  }, [tacticsData]);
 
   const handleDragStart = (e: React.DragEvent, player: any, sourcePosId: string) => {
     e.dataTransfer.setData('player', JSON.stringify(player));
@@ -226,12 +240,21 @@ export default function TacticsBuilder() {
     setIsSaved(false);
   };
 
-  const saveTactics = () => {
-    localStorage.setItem('tpl_tactics', JSON.stringify({
+  const saveTactics = async () => {
+    const payload = {
       savedFormation: formation,
       savedStartingXI: startingXI,
       savedBench: bench
-    }));
+    };
+
+    localStorage.setItem('tpl_tactics', JSON.stringify(payload));
+
+    try {
+      await saveTacticsMutation({ tactics: payload }).unwrap();
+    } catch (e) {
+      console.error("Backend tactics save error:", e);
+    }
+
     setIsSaved(true);
     setTimeout(() => setIsSaved(false), 3000);
   };
@@ -243,6 +266,7 @@ export default function TacticsBuilder() {
       </div>
     );
   }
+
 
   return (
     <div className="space-y-6 animate-fadeIn pb-12">
